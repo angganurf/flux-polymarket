@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   }
   try {
     const res = await fetch(`${CLOB_API_URL}/book?token_id=${tokenId}`, {
-      headers: { "Accept": "application/json" },
+      headers: { Accept: "application/json" },
     });
     if (!res.ok) {
       return NextResponse.json({ error: "Upstream error" }, { status: res.status });
@@ -16,6 +16,9 @@ export async function GET(request: NextRequest) {
     const data = await res.json();
     return NextResponse.json(data);
   } catch {
-    return NextResponse.json({ error: "Failed to fetch order book" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch order book" },
+      { status: 500 }
+    );
   }
 }

@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { GAMMA_API_URL } from "@/lib/utils/constants";
 
 export async function GET(request: NextRequest) {
-  const query = request.nextUrl.searchParams.get("query") || "";
+  const q = request.nextUrl.searchParams.get("q") || "";
   try {
-    const res = await fetch(`${GAMMA_API_URL}/public-search?query=${encodeURIComponent(query)}`, {
+    const res = await fetch(`${GAMMA_API_URL}/public-search?q=${encodeURIComponent(q)}`, {
       headers: { "Accept": "application/json" },
       next: { revalidate: 60 },
     });

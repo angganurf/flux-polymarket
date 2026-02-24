@@ -8,11 +8,25 @@ function isClient(): boolean {
  * Returns the correct URL for Gamma API paths.
  * On the server: direct to https://gamma-api.polymarket.com
  * In the browser: routed through the local Next.js proxy to avoid CORS
+ *
+ * Proxy route mapping:
+ *   /events?...              -> /api/polymarket/events?...
+ *   /events/slug/{slug}      -> /api/polymarket/events/{slug}
+ *   /markets?...             -> /api/polymarket/markets?...
+ *   /public-search?query=... -> /api/polymarket/search?query=...
  */
 export function gammaUrl(path: string, params?: string): string {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   const query = params ? `?${params}` : "";
   if (isClient()) {
+    // Map Gamma API paths to proxy route paths
+    const slugMatch = normalizedPath.match(/^\/events\/slug\/(.+)$/);
+    if (slugMatch) {
+      return `${PROXY_BASE}/events/${slugMatch[1]}${query}`;
+    }
+    if (normalizedPath === "/public-search") {
+      return `${PROXY_BASE}/search${query}`;
+    }
     return `${PROXY_BASE}${normalizedPath}${query}`;
   }
   return `https://gamma-api.polymarket.com${normalizedPath}${query}`;

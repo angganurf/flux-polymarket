@@ -117,7 +117,7 @@ export async function fetchMarketBySlug(slug: string): Promise<ParsedMarket> {
 }
 
 export async function searchMarkets(query: string): Promise<ParsedEvent[]> {
-  const res = await fetch(gammaUrl("/public-search", `query=${encodeURIComponent(query)}`));
+  const res = await fetch(gammaUrl("/public-search", `q=${encodeURIComponent(query)}`));
   if (!res.ok) throw new Error(`Gamma API error: ${res.status}`);
   const data = await res.json();
   return (data.events || []).map(parseEvent);
