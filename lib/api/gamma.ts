@@ -1,5 +1,5 @@
-import { GAMMA_API_URL } from "@/lib/utils/constants";
 import type { GammaEvent, GammaMarket, GammaTag, ParsedEvent, ParsedMarket } from "./types";
+import { gammaUrl } from "./fetch-helper";
 
 function parseMarket(m: GammaMarket): ParsedMarket {
   let outcomes: string[] = [];
@@ -72,14 +72,14 @@ export async function fetchEvents(params?: {
   if (params?.ascending !== undefined) searchParams.set("ascending", String(params.ascending));
   if (params?.tag_id) searchParams.set("tag_id", String(params.tag_id));
 
-  const res = await fetch(`${GAMMA_API_URL}/events?${searchParams}`);
+  const res = await fetch(gammaUrl("/events", searchParams.toString()));
   if (!res.ok) throw new Error(`Gamma API error: ${res.status}`);
   const data: GammaEvent[] = await res.json();
   return data.map(parseEvent);
 }
 
 export async function fetchEventBySlug(slug: string): Promise<ParsedEvent> {
-  const res = await fetch(`${GAMMA_API_URL}/events/slug/${slug}`);
+  const res = await fetch(gammaUrl(`/events/slug/${slug}`));
   if (!res.ok) throw new Error(`Gamma API error: ${res.status}`);
   const data: GammaEvent = await res.json();
   return parseEvent(data);
@@ -103,28 +103,28 @@ export async function fetchMarkets(params?: {
   if (params?.ascending !== undefined) searchParams.set("ascending", String(params.ascending));
   if (params?.tag_id) searchParams.set("tag_id", String(params.tag_id));
 
-  const res = await fetch(`${GAMMA_API_URL}/markets?${searchParams}`);
+  const res = await fetch(gammaUrl("/markets", searchParams.toString()));
   if (!res.ok) throw new Error(`Gamma API error: ${res.status}`);
   const data: GammaMarket[] = await res.json();
   return data.map(parseMarket);
 }
 
 export async function fetchMarketBySlug(slug: string): Promise<ParsedMarket> {
-  const res = await fetch(`${GAMMA_API_URL}/markets/slug/${slug}`);
+  const res = await fetch(gammaUrl(`/markets/slug/${slug}`));
   if (!res.ok) throw new Error(`Gamma API error: ${res.status}`);
   const data: GammaMarket = await res.json();
   return parseMarket(data);
 }
 
 export async function searchMarkets(query: string): Promise<ParsedEvent[]> {
-  const res = await fetch(`${GAMMA_API_URL}/public-search?query=${encodeURIComponent(query)}`);
+  const res = await fetch(gammaUrl("/public-search", `query=${encodeURIComponent(query)}`));
   if (!res.ok) throw new Error(`Gamma API error: ${res.status}`);
   const data = await res.json();
   return (data.events || []).map(parseEvent);
 }
 
 export async function fetchTags(): Promise<GammaTag[]> {
-  const res = await fetch(`${GAMMA_API_URL}/tags`);
+  const res = await fetch(gammaUrl("/tags"));
   if (!res.ok) throw new Error(`Gamma API error: ${res.status}`);
   return res.json();
 }

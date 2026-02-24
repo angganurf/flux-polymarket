@@ -13,8 +13,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PredictFlow - Real-time Prediction Market Analytics",
-  description: "Track, analyze, and explore prediction markets with live data and AI-powered insights.",
+  title: {
+    default: "PredictFlow - Real-time Prediction Market Analytics",
+    template: "%s | PredictFlow",
+  },
+  description: "Track, analyze, and explore prediction markets with live data. Real-time Polymarket analytics dashboard.",
+  keywords: ["prediction market", "polymarket", "analytics", "crypto", "trading", "forecasting"],
+  openGraph: {
+    title: "PredictFlow - Real-time Prediction Market Analytics",
+    description: "Track, analyze, and explore prediction markets with live data.",
+    type: "website",
+    locale: "en_US",
+    siteName: "PredictFlow",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PredictFlow",
+    description: "Real-time Prediction Market Analytics Dashboard",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

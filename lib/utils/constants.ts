@@ -3,6 +3,10 @@ export const CLOB_API_URL = "https://clob.polymarket.com";
 export const DATA_API_URL = "https://data-api.polymarket.com";
 export const WS_MARKET_URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market";
 
+// Use proxy routes in the browser to avoid CORS; use direct URLs on the server
+export const USE_PROXY = typeof window !== "undefined";
+export const PROXY_BASE_URL = "/api/polymarket";
+
 export const CATEGORIES = [
   { id: "all", label: "All" },
   { id: "politics", label: "Politics" },

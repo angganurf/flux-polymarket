@@ -1,5 +1,5 @@
-import { DATA_API_URL } from "@/lib/utils/constants";
 import type { LeaderboardEntry, OpenInterest } from "./types";
+import { dataUrl } from "./fetch-helper";
 
 export async function fetchLeaderboard(params?: {
   category?: string;
@@ -13,13 +13,13 @@ export async function fetchLeaderboard(params?: {
   if (params?.limit) searchParams.set("limit", String(params.limit));
   if (params?.offset) searchParams.set("offset", String(params.offset));
 
-  const res = await fetch(`${DATA_API_URL}/v1/leaderboard?${searchParams}`);
+  const res = await fetch(dataUrl("/v1/leaderboard", searchParams.toString()));
   if (!res.ok) throw new Error(`Data API error: ${res.status}`);
   return res.json();
 }
 
 export async function fetchOpenInterest(conditionId: string): Promise<OpenInterest[]> {
-  const res = await fetch(`${DATA_API_URL}/oi?market=${conditionId}`);
+  const res = await fetch(dataUrl("/oi", `market=${conditionId}`));
   if (!res.ok) throw new Error(`Data API error: ${res.status}`);
   return res.json();
 }
