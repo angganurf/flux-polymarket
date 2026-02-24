@@ -29,10 +29,10 @@ export function MarketFilters({
   };
 
   const sortTranslations: Record<string, string> = {
-    volume_24hr: t("sort.volume"),
+    volume24hr: t("sort.volume"),
     liquidity: t("sort.liquidity"),
-    start_date: t("sort.newest"),
-    end_date: t("sort.ending"),
+    startDate: t("sort.newest"),
+    endDate: t("sort.ending"),
   };
 
   return (

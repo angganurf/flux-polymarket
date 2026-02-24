@@ -12,7 +12,7 @@ interface UIState {
 export const useUIStore = create<UIState>((set) => ({
   sidebarOpen: false,
   selectedCategory: "all",
-  selectedSort: "volume_24hr",
+  selectedSort: "volume24hr",
   toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
   setCategory: (category) => set({ selectedCategory: category }),
   setSort: (sort) => set({ selectedSort: sort }),

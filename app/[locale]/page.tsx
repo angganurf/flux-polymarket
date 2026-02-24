@@ -15,7 +15,7 @@ export default function HomePage() {
     active: true,
     closed: false,
     limit: 6,
-    order: "volume_24hr",
+    order: "volume24hr",
     ascending: false,
   });
 

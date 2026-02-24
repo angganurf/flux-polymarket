@@ -10,7 +10,7 @@ import { MarketSearch } from "@/components/markets/market-search";
 export default function MarketsPage() {
   const t = useTranslations("markets");
   const [category, setCategory] = useState("all");
-  const [sort, setSort] = useState("volume_24hr");
+  const [sort, setSort] = useState("volume24hr");
   const [searchQuery, setSearchQuery] = useState("");
 
   // Search mode vs browse mode

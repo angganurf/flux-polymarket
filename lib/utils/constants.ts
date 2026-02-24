@@ -18,10 +18,10 @@ export const CATEGORIES = [
 ] as const;
 
 export const SORT_OPTIONS = [
-  { id: "volume_24hr", label: "Volume" },
+  { id: "volume24hr", label: "Volume" },
   { id: "liquidity", label: "Liquidity" },
-  { id: "start_date", label: "Newest" },
-  { id: "end_date", label: "Ending Soon" },
+  { id: "startDate", label: "Newest" },
+  { id: "endDate", label: "Ending Soon" },
 ] as const;
 
 export const CHART_INTERVALS = [
