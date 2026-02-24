@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "home": "홈",
+    "markets": "마켓",
+    "leaderboard": "리더보드",
+    "about": "소개"
+  },
+  "home": {
+    "title": "PredictFlow",
+    "subtitle": "실시간 예측 시장 분석",
+    "description": "실시간 데이터와 AI 기반 인사이트로 예측 시장을 추적하고 분석하세요.",
+    "trending": "트렌딩 마켓",
+    "featured": "추천",
+    "viewAll": "전체 마켓 보기",
+    "stats": {
+      "totalVolume": "총 거래량",
+      "activeMarkets": "활성 마켓",
+      "traders": "트레이더",
+      "categories": "카테고리"
+    }
+  },
+  "markets": {
+    "title": "마켓 탐색",
+    "search": "마켓 검색...",
+    "filters": {
+      "all": "전체",
+      "politics": "정치",
+      "sports": "스포츠",
+      "crypto": "암호화폐",
+      "culture": "문화",
+      "science": "과학"
+    },
+    "sort": {
+      "volume": "거래량",
+      "liquidity": "유동성",
+      "newest": "최신",
+      "ending": "마감 임박"
+    },
+    "noResults": "마켓을 찾을 수 없습니다",
+    "loading": "마켓 로딩 중..."
+  },
+  "market": {
+    "yes": "예",
+    "no": "아니오",
+    "volume": "거래량",
+    "volume24h": "24시간 거래량",
+    "liquidity": "유동성",
+    "openInterest": "미결제 약정",
+    "priceChange": "가격 변동",
+    "topHolders": "상위 보유자",
+    "orderBook": "주문장",
+    "priceHistory": "가격 차트",
+    "description": "설명",
+    "resolution": "결과 확인 출처",
+    "endDate": "마감일",
+    "bids": "매수",
+    "asks": "매도",
+    "price": "가격",
+    "size": "수량",
+    "intervals": {
+      "1h": "1시간",
+      "1d": "1일",
+      "1w": "1주",
+      "1m": "1개월",
+      "all": "전체"
+    }
+  },
+  "leaderboard": {
+    "title": "리더보드",
+    "rank": "순위",
+    "trader": "트레이더",
+    "pnl": "수익",
+    "volume": "거래량",
+    "categories": {
+      "overall": "전체",
+      "politics": "정치",
+      "sports": "스포츠",
+      "crypto": "암호화폐"
+    },
+    "periods": {
+      "day": "오늘",
+      "week": "이번 주",
+      "month": "이번 달",
+      "all": "전체 기간"
+    }
+  },
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "retry": "다시 시도",
+    "connected": "연결됨",
+    "disconnected": "연결 끊김",
+    "connecting": "연결 중..."
+  }
+}

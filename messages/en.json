@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "home": "Home",
+    "markets": "Markets",
+    "leaderboard": "Leaderboard",
+    "about": "About"
+  },
+  "home": {
+    "title": "PredictFlow",
+    "subtitle": "Real-time Prediction Market Analytics",
+    "description": "Track, analyze, and explore prediction markets with live data and AI-powered insights.",
+    "trending": "Trending Markets",
+    "featured": "Featured",
+    "viewAll": "View All Markets",
+    "stats": {
+      "totalVolume": "Total Volume",
+      "activeMarkets": "Active Markets",
+      "traders": "Traders",
+      "categories": "Categories"
+    }
+  },
+  "markets": {
+    "title": "Markets Explorer",
+    "search": "Search markets...",
+    "filters": {
+      "all": "All",
+      "politics": "Politics",
+      "sports": "Sports",
+      "crypto": "Crypto",
+      "culture": "Culture",
+      "science": "Science"
+    },
+    "sort": {
+      "volume": "Volume",
+      "liquidity": "Liquidity",
+      "newest": "Newest",
+      "ending": "Ending Soon"
+    },
+    "noResults": "No markets found",
+    "loading": "Loading markets..."
+  },
+  "market": {
+    "yes": "YES",
+    "no": "NO",
+    "volume": "Volume",
+    "volume24h": "24h Volume",
+    "liquidity": "Liquidity",
+    "openInterest": "Open Interest",
+    "priceChange": "Price Change",
+    "topHolders": "Top Holders",
+    "orderBook": "Order Book",
+    "priceHistory": "Price History",
+    "description": "Description",
+    "resolution": "Resolution Source",
+    "endDate": "End Date",
+    "bids": "Bids",
+    "asks": "Asks",
+    "price": "Price",
+    "size": "Size",
+    "intervals": {
+      "1h": "1H",
+      "1d": "1D",
+      "1w": "1W",
+      "1m": "1M",
+      "all": "ALL"
+    }
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "rank": "Rank",
+    "trader": "Trader",
+    "pnl": "PnL",
+    "volume": "Volume",
+    "categories": {
+      "overall": "Overall",
+      "politics": "Politics",
+      "sports": "Sports",
+      "crypto": "Crypto"
+    },
+    "periods": {
+      "day": "Today",
+      "week": "This Week",
+      "month": "This Month",
+      "all": "All Time"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "connecting": "Connecting..."
+  }
+}
