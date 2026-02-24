@@ -3,7 +3,8 @@
     "home": "Home",
     "markets": "Markets",
     "leaderboard": "Leaderboard",
-    "about": "About"
+    "about": "About",
+    "predict": "Predict"
   },
   "home": {
     "title": "PredictFlow",
@@ -91,5 +92,54 @@
     "connected": "Connected",
     "disconnected": "Disconnected",
     "connecting": "Connecting..."
+  },
+  "auth": {
+    "login": "Log In",
+    "register": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "confirmPassword": "Confirm Password",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginButton": "Log In",
+    "registerButton": "Create Account",
+    "logout": "Log Out",
+    "points": "Points",
+    "welcomeBonus": "You'll receive 1,000 points to start predicting!"
+  },
+  "predict": {
+    "title": "Predictions",
+    "create": "Create Prediction",
+    "createNew": "New Prediction",
+    "question": "Question",
+    "questionPlaceholder": "Will something happen by a certain date?",
+    "description": "Description (optional)",
+    "descriptionPlaceholder": "Add context or resolution criteria...",
+    "category": "Category",
+    "endDate": "End Date",
+    "submit": "Create",
+    "placeBet": "Place Prediction",
+    "yourBet": "Your Prediction",
+    "amount": "Amount (points)",
+    "minBet": "Min: 10 points",
+    "confirm": "Confirm",
+    "resolve": "Resolve",
+    "resolveYes": "Resolve YES",
+    "resolveNo": "Resolve NO",
+    "resolved": "Resolved",
+    "active": "Active",
+    "ended": "Ended",
+    "totalPool": "Total Pool",
+    "participants": "Participants",
+    "yourPoints": "Your Points",
+    "categories": {
+      "general": "General",
+      "politics": "Politics",
+      "sports": "Sports",
+      "crypto": "Crypto",
+      "entertainment": "Entertainment",
+      "technology": "Technology"
+    }
   }
 }

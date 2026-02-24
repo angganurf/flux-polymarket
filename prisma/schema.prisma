@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// === Auth Models (NextAuth) ===
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  points        Int       @default(1000)
+  role          String    @default("user") // "user" | "admin"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+  bets     Bet[]
+  events   PredictionEvent[] @relation("EventCreator")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// === Prediction Market Models ===
+
+model PredictionEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String   @default("general")
+  imageUrl    String?
+  endDate     DateTime
+  status      String   @default("active") // "active" | "resolved" | "cancelled"
+  result      String?  // "yes" | "no" | null (when not resolved)
+  creatorId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  creator User  @relation("EventCreator", fields: [creatorId], references: [id])
+  bets    Bet[]
+
+  @@index([status])
+  @@index([category])
+  @@index([endDate])
+}
+
+model Bet {
+  id        String   @id @default(cuid())
+  userId    String
+  eventId   String
+  choice    String   // "yes" | "no"
+  amount    Int      // points wagered
+  payout    Int?     // points received after resolution (null if not resolved)
+  createdAt DateTime @default(now())
+
+  user  User            @relation(fields: [userId], references: [id])
+  event PredictionEvent @relation(fields: [eventId], references: [id])
+
+  @@index([userId])
+  @@index([eventId])
+}

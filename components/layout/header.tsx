@@ -6,6 +6,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { BarChart3, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LocaleSwitcher } from "@/components/shared/locale-switcher";
+import { UserMenu } from "@/components/shared/user-menu";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -14,6 +15,7 @@ export function Header() {
 
   const links = [
     { href: "/markets" as const, label: t("markets") },
+    { href: "/predict" as const, label: t("predict") },
     { href: "/leaderboard" as const, label: t("leaderboard") },
   ];
 
@@ -50,6 +52,7 @@ export function Header() {
 
         {/* Desktop right side */}
         <div className="hidden items-center gap-3 md:flex">
+          <UserMenu />
           <LocaleSwitcher />
         </div>
 
@@ -86,6 +89,7 @@ export function Header() {
             </Link>
           ))}
           <div className="px-3 pt-2">
+            <UserMenu />
             <LocaleSwitcher />
           </div>
         </div>

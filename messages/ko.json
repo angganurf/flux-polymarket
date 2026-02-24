@@ -3,7 +3,8 @@
     "home": "홈",
     "markets": "마켓",
     "leaderboard": "리더보드",
-    "about": "소개"
+    "about": "소개",
+    "predict": "예측"
   },
   "home": {
     "title": "PredictFlow",
@@ -91,5 +92,54 @@
     "connected": "연결됨",
     "disconnected": "연결 끊김",
     "connecting": "연결 중..."
+  },
+  "auth": {
+    "login": "로그인",
+    "register": "회원가입",
+    "email": "이메일",
+    "password": "비밀번호",
+    "name": "이름",
+    "confirmPassword": "비밀번호 확인",
+    "noAccount": "계정이 없으신가요?",
+    "hasAccount": "이미 계정이 있으신가요?",
+    "loginButton": "로그인",
+    "registerButton": "계정 만들기",
+    "logout": "로그아웃",
+    "points": "포인트",
+    "welcomeBonus": "예측을 시작할 1,000 포인트를 받으세요!"
+  },
+  "predict": {
+    "title": "예측",
+    "create": "예측 만들기",
+    "createNew": "새 예측",
+    "question": "질문",
+    "questionPlaceholder": "특정 날짜까지 어떤 일이 일어날까요?",
+    "description": "설명 (선택)",
+    "descriptionPlaceholder": "맥락이나 결과 확인 기준을 추가하세요...",
+    "category": "카테고리",
+    "endDate": "마감일",
+    "submit": "만들기",
+    "placeBet": "예측하기",
+    "yourBet": "내 예측",
+    "amount": "금액 (포인트)",
+    "minBet": "최소: 10 포인트",
+    "confirm": "확인",
+    "resolve": "결과 확정",
+    "resolveYes": "YES로 확정",
+    "resolveNo": "NO로 확정",
+    "resolved": "확정됨",
+    "active": "진행중",
+    "ended": "종료",
+    "totalPool": "전체 풀",
+    "participants": "참여자",
+    "yourPoints": "내 포인트",
+    "categories": {
+      "general": "일반",
+      "politics": "정치",
+      "sports": "스포츠",
+      "crypto": "암호화폐",
+      "entertainment": "엔터테인먼트",
+      "technology": "기술"
+    }
   }
 }
