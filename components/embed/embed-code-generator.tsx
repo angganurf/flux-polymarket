@@ -16,7 +16,7 @@ export function EmbedCodeGenerator({ slug }: EmbedCodeGeneratorProps) {
   const baseUrl =
     typeof window !== "undefined"
       ? window.location.origin
-      : "http://localhost:3000";
+      : "http://localhost:3100";
 
   const embedUrl = `${baseUrl}/embed/market/${slug}?theme=${theme}&height=${height}`;
   const iframeCode = `<iframe src="${embedUrl}" width="100%" height="${height}" frameborder="0" style="border-radius:12px;overflow:hidden;"></iframe>`;

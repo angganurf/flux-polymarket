@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchEventBySlug } from "@/lib/api/gamma";
+import { fetchEventBySlug, fetchMarketBySlug } from "@/lib/api/gamma";
 import { fetchOrderBook, fetchPriceHistory } from "@/lib/api/clob";
 import { fetchOpenInterest } from "@/lib/api/data";
 
@@ -7,6 +7,14 @@ export function useEventDetail(slug: string) {
   return useQuery({
     queryKey: ["event", slug],
     queryFn: () => fetchEventBySlug(slug),
+    staleTime: 30_000,
+  });
+}
+
+export function useMarketDetail(slug: string) {
+  return useQuery({
+    queryKey: ["market", slug],
+    queryFn: () => fetchMarketBySlug(slug),
     staleTime: 30_000,
   });
 }

@@ -2,7 +2,7 @@
 
 import { use, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useEventDetail, usePriceHistory } from "@/lib/hooks/use-market-detail";
+import { useMarketDetail, usePriceHistory } from "@/lib/hooks/use-market-detail";
 import { CHART_INTERVALS } from "@/lib/utils/constants";
 import {
   createChart,
@@ -188,8 +188,7 @@ export default function EmbedMarketPage({
     | "light";
   const totalHeight = Number(searchParams.get("height")) || 400;
 
-  const { data: event, isLoading, error } = useEventDetail(slug);
-  const market = event?.markets[0];
+  const { data: market, isLoading, error } = useMarketDetail(slug);
   const tokenId = market?.clobTokenIds[0];
 
   // Apply theme CSS variables to body

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEventDetail } from "@/lib/hooks/use-market-detail";
+import { useMarketDetail } from "@/lib/hooks/use-market-detail";
 import { useMarketWebSocket } from "@/lib/hooks/use-websocket";
 import { MarketHeader } from "@/components/market-detail/market-header";
 import { ProbabilityChart } from "@/components/market-detail/probability-chart";
@@ -18,10 +18,8 @@ interface MarketDetailViewProps {
 }
 
 export function MarketDetailView({ slug }: MarketDetailViewProps) {
-  const { data: event, isLoading, error } = useEventDetail(slug);
+  const { data: market, isLoading, error } = useMarketDetail(slug);
 
-  // Get the primary market from the event
-  const market = event?.markets[0];
   const tokenId = market?.clobTokenIds[0];
   const allTokenIds = market?.clobTokenIds ?? [];
 

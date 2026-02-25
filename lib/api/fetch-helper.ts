@@ -13,6 +13,7 @@ function isClient(): boolean {
  *   /events?...              -> /api/polymarket/events?...
  *   /events/slug/{slug}      -> /api/polymarket/events/{slug}
  *   /markets?...             -> /api/polymarket/markets?...
+ *   /markets/slug/{slug}     -> /api/polymarket/markets/{slug}
  *   /public-search?query=... -> /api/polymarket/search?query=...
  */
 export function gammaUrl(path: string, params?: string): string {
@@ -20,9 +21,13 @@ export function gammaUrl(path: string, params?: string): string {
   const query = params ? `?${params}` : "";
   if (isClient()) {
     // Map Gamma API paths to proxy route paths
-    const slugMatch = normalizedPath.match(/^\/events\/slug\/(.+)$/);
-    if (slugMatch) {
-      return `${PROXY_BASE}/events/${slugMatch[1]}${query}`;
+    const eventSlugMatch = normalizedPath.match(/^\/events\/slug\/(.+)$/);
+    if (eventSlugMatch) {
+      return `${PROXY_BASE}/events/${eventSlugMatch[1]}${query}`;
+    }
+    const marketSlugMatch = normalizedPath.match(/^\/markets\/slug\/(.+)$/);
+    if (marketSlugMatch) {
+      return `${PROXY_BASE}/markets/${marketSlugMatch[1]}${query}`;
     }
     if (normalizedPath === "/public-search") {
       return `${PROXY_BASE}/search${query}`;
