@@ -10,6 +10,17 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.polymarket.com" },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/embed/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "ALLOWALL" },
+          { key: "Content-Security-Policy", value: "frame-ancestors *" },
+        ],
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

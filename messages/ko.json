@@ -4,7 +4,8 @@
     "markets": "마켓",
     "leaderboard": "리더보드",
     "about": "소개",
-    "predict": "예측"
+    "predict": "예측",
+    "portfolio": "포트폴리오"
   },
   "home": {
     "title": "PredictFlow",
@@ -64,6 +65,18 @@
       "1w": "1주",
       "1m": "1개월",
       "all": "전체"
+    },
+    "share": "공유",
+    "embed": "임베드",
+    "copyLink": "링크 복사",
+    "copied": "복사됨!",
+    "aiAnalysis": {
+      "title": "AI 분석",
+      "generate": "분석 생성",
+      "regenerate": "재분석",
+      "loading": "마켓 분석 중...",
+      "noApiKey": "AI 분석을 사용하려면 설정이 필요합니다. API 키를 설정해주세요.",
+      "error": "분석 생성에 실패했습니다. 다시 시도해주세요."
     }
   },
   "leaderboard": {
@@ -108,6 +121,33 @@
     "points": "포인트",
     "welcomeBonus": "예측을 시작할 1,000 포인트를 받으세요!"
   },
+  "portfolio": {
+    "title": "포트폴리오",
+    "stats": {
+      "totalBets": "총 베팅",
+      "winRate": "승률",
+      "pnl": "손익",
+      "activeBets": "활성 포지션",
+      "totalWagered": "총 베팅액",
+      "totalPayout": "총 수익"
+    },
+    "history": "베팅 내역",
+    "date": "날짜",
+    "market": "마켓",
+    "choice": "선택",
+    "amount": "금액",
+    "status": "상태",
+    "payout": "수익",
+    "statuses": {
+      "active": "진행중",
+      "won": "승리",
+      "lost": "패배",
+      "pending": "대기중"
+    },
+    "empty": "아직 베팅이 없습니다. 예측을 시작하세요!",
+    "noActive": "활성 포지션 없음",
+    "loginRequired": "포트폴리오를 보려면 로그인하세요"
+  },
   "predict": {
     "title": "예측",
     "create": "예측 만들기",
@@ -140,6 +180,14 @@
       "crypto": "암호화폐",
       "entertainment": "엔터테인먼트",
       "technology": "기술"
+    },
+    "comments": {
+      "title": "댓글",
+      "placeholder": "의견을 남겨보세요...",
+      "submit": "작성",
+      "empty": "아직 댓글이 없습니다. 첫 댓글을 남겨보세요!",
+      "loginToComment": "댓글을 작성하려면 로그인하세요",
+      "charLimit": "자 남음"
     }
   }
 }

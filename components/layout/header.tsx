@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { BarChart3, Menu, X } from "lucide-react";
@@ -12,10 +13,14 @@ export function Header() {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   const links = [
     { href: "/markets" as const, label: t("markets") },
     { href: "/predict" as const, label: t("predict") },
+    ...(session
+      ? [{ href: "/portfolio" as const, label: t("portfolio") }]
+      : []),
     { href: "/leaderboard" as const, label: t("leaderboard") },
   ];
 

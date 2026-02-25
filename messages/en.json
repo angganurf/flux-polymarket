@@ -4,7 +4,8 @@
     "markets": "Markets",
     "leaderboard": "Leaderboard",
     "about": "About",
-    "predict": "Predict"
+    "predict": "Predict",
+    "portfolio": "Portfolio"
   },
   "home": {
     "title": "PredictFlow",
@@ -64,6 +65,18 @@
       "1w": "1W",
       "1m": "1M",
       "all": "ALL"
+    },
+    "share": "Share",
+    "embed": "Embed",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "aiAnalysis": {
+      "title": "AI Analysis",
+      "generate": "Generate Analysis",
+      "regenerate": "Regenerate",
+      "loading": "Analyzing market...",
+      "noApiKey": "AI analysis requires configuration. Set up your API key to enable this feature.",
+      "error": "Failed to generate analysis. Please try again."
     }
   },
   "leaderboard": {
@@ -108,6 +121,33 @@
     "points": "Points",
     "welcomeBonus": "You'll receive 1,000 points to start predicting!"
   },
+  "portfolio": {
+    "title": "Portfolio",
+    "stats": {
+      "totalBets": "Total Bets",
+      "winRate": "Win Rate",
+      "pnl": "P&L",
+      "activeBets": "Active Positions",
+      "totalWagered": "Total Wagered",
+      "totalPayout": "Total Payout"
+    },
+    "history": "Bet History",
+    "date": "Date",
+    "market": "Market",
+    "choice": "Choice",
+    "amount": "Amount",
+    "status": "Status",
+    "payout": "Payout",
+    "statuses": {
+      "active": "Active",
+      "won": "Won",
+      "lost": "Lost",
+      "pending": "Pending"
+    },
+    "empty": "No bets yet. Start predicting!",
+    "noActive": "No active positions",
+    "loginRequired": "Log in to view your portfolio"
+  },
   "predict": {
     "title": "Predictions",
     "create": "Create Prediction",
@@ -140,6 +180,14 @@
       "crypto": "Crypto",
       "entertainment": "Entertainment",
       "technology": "Technology"
+    },
+    "comments": {
+      "title": "Comments",
+      "placeholder": "Share your thoughts...",
+      "submit": "Post",
+      "empty": "No comments yet. Be the first!",
+      "loginToComment": "Log in to comment",
+      "charLimit": "characters remaining"
     }
   }
 }
