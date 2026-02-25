@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 interface EmbedCodeGeneratorProps {
@@ -8,6 +9,7 @@ interface EmbedCodeGeneratorProps {
 }
 
 export function EmbedCodeGenerator({ slug }: EmbedCodeGeneratorProps) {
+  const t = useTranslations("market");
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -64,7 +66,7 @@ export function EmbedCodeGenerator({ slug }: EmbedCodeGeneratorProps) {
             <polyline points="8 6 2 12 8 18" />
           </svg>
           <span className="text-sm font-semibold text-foreground">
-            Embed this market
+            {t("embedTitle")}
           </span>
         </div>
         <svg
@@ -92,20 +94,20 @@ export function EmbedCodeGenerator({ slug }: EmbedCodeGeneratorProps) {
           <div className="mb-3 flex items-center gap-4">
             {/* Theme selector */}
             <div className="flex items-center gap-2">
-              <label className="text-xs text-muted">Theme</label>
+              <label className="text-xs text-muted">{t("embedTheme")}</label>
               <select
                 value={theme}
                 onChange={(e) => setTheme(e.target.value as "dark" | "light")}
                 className="rounded-md border border-border bg-background px-2 py-1 text-xs text-foreground outline-none focus:border-primary"
               >
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
+                <option value="dark">{t("embedDark")}</option>
+                <option value="light">{t("embedLight")}</option>
               </select>
             </div>
 
             {/* Height input */}
             <div className="flex items-center gap-2">
-              <label className="text-xs text-muted">Height</label>
+              <label className="text-xs text-muted">{t("embedHeight")}</label>
               <input
                 type="number"
                 value={height}
@@ -139,7 +141,7 @@ export function EmbedCodeGenerator({ slug }: EmbedCodeGeneratorProps) {
                   : "bg-primary/10 text-primary hover:bg-primary/20"
               )}
             >
-              {copied ? "Copied!" : "Copy"}
+              {copied ? t("embedCopied") : t("embedCopy")}
             </button>
           </div>
 
@@ -150,7 +152,7 @@ export function EmbedCodeGenerator({ slug }: EmbedCodeGeneratorProps) {
             rel="noopener noreferrer"
             className="mt-2 inline-block text-xs text-primary hover:underline"
           >
-            Preview embed &rarr;
+            {t("embedPreview")} &rarr;
           </a>
         </div>
       )}

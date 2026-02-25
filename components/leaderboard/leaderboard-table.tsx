@@ -34,7 +34,7 @@ export function LeaderboardTable({ entries, isLoading }: LeaderboardTableProps) 
   if (entries.length === 0) {
     return (
       <div className="rounded-xl border border-border bg-surface py-20 text-center text-muted">
-        No data available
+        {t("noData")}
       </div>
     );
   }

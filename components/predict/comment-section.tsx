@@ -1,24 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { formatTimeAgo } from "@/lib/utils/format";
 import { MessageCircle, Send } from "lucide-react";
-
-interface CommentUser {
-  id: string;
-  name: string | null;
-  image: string | null;
-}
-
-interface Comment {
-  id: string;
-  content: string;
-  createdAt: string;
-  user: CommentUser;
-}
+import { useComments, usePostComment } from "@/lib/hooks/use-comments";
 
 interface CommentSectionProps {
   eventId: string;
@@ -47,77 +35,25 @@ function getAvatarColor(name: string): string {
 
 export function CommentSection({ eventId }: CommentSectionProps) {
   const t = useTranslations("predict.comments");
+  const tc = useTranslations("common");
   const { data: session } = useSession();
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: comments = [], isLoading: loading } = useComments(eventId);
+  const postCommentMutation = usePostComment(eventId);
   const [content, setContent] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
-  const fetchComments = useCallback(async () => {
-    try {
-      const res = await fetch(`/api/events/${eventId}/comments`);
-      if (res.ok) {
-        setComments(await res.json());
-      }
-    } catch {
-      // silently fail
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
-
-  useEffect(() => {
-    fetchComments();
-  }, [fetchComments]);
+  const submitting = postCommentMutation.isPending;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = content.trim();
     if (!trimmed || submitting) return;
 
-    setSubmitting(true);
-
-    // Optimistic update
-    const optimisticComment: Comment = {
-      id: `temp-${Date.now()}`,
-      content: trimmed,
-      createdAt: new Date().toISOString(),
-      user: {
-        id: session?.user?.id || "",
-        name: session?.user?.name || null,
-        image: session?.user?.image || null,
-      },
-    };
-
-    setComments((prev) => [optimisticComment, ...prev]);
     setContent("");
-
-    try {
-      const res = await fetch(`/api/events/${eventId}/comments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: trimmed }),
-      });
-
-      if (res.ok) {
-        // Refetch to get server-confirmed data
-        fetchComments();
-      } else {
-        // Revert optimistic update on failure
-        setComments((prev) =>
-          prev.filter((c) => c.id !== optimisticComment.id)
-        );
+    postCommentMutation.mutate(trimmed, {
+      onError: () => {
         setContent(trimmed);
-      }
-    } catch {
-      // Revert optimistic update
-      setComments((prev) =>
-        prev.filter((c) => c.id !== optimisticComment.id)
-      );
-      setContent(trimmed);
-    } finally {
-      setSubmitting(false);
-    }
+      },
+    });
   };
 
   const remaining = MAX_CHARS - content.length;
@@ -198,7 +134,7 @@ export function CommentSection({ eventId }: CommentSectionProps) {
       ) : (
         <div className="space-y-3">
           {comments.map((comment) => {
-            const displayName = comment.user.name || "Anonymous";
+            const displayName = comment.user.name || tc("anonymous");
             const initial = displayName.charAt(0).toUpperCase();
             const avatarColor = getAvatarColor(displayName);
 

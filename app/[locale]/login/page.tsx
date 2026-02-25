@@ -27,13 +27,13 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
+        setError(t("errors.invalidCredentials"));
       } else {
         router.push("/");
         router.refresh();
       }
     } catch {
-      setError("Something went wrong");
+      setError(t("errors.invalidCredentials"));
     } finally {
       setLoading(false);
     }

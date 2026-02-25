@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import type { ParsedEvent } from "@/lib/api/types";
 import { MarketCard } from "./market-card";
 
@@ -7,6 +10,8 @@ interface MarketListProps {
 }
 
 export function MarketList({ events, isLoading }: MarketListProps) {
+  const t = useTranslations("markets");
+
   if (isLoading) {
     return (
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -24,7 +29,7 @@ export function MarketList({ events, isLoading }: MarketListProps) {
 
   if (markets.length === 0) {
     return (
-      <div className="py-20 text-center text-muted">No markets found</div>
+      <div className="py-20 text-center text-muted">{t("noResults")}</div>
     );
   }
 

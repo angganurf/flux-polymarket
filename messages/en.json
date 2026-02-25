@@ -19,7 +19,16 @@
       "activeMarkets": "Active Markets",
       "traders": "Traders",
       "categories": "Categories"
-    }
+    },
+    "heroBadge": "Real-time prediction market analytics",
+    "trendingSubtitle": "Most active markets right now",
+    "whyTitle": "Why PredictFlow?",
+    "realtimeTitle": "Real-time Data",
+    "realtimeDesc": "Live WebSocket feeds from prediction markets. See probabilities change in real-time.",
+    "globalTitle": "Global Markets",
+    "globalDesc": "Track politics, sports, crypto, culture and more. All in one dashboard.",
+    "transparentTitle": "Transparent Analytics",
+    "transparentDesc": "Open data, clear methodology. Powered by on-chain prediction market data."
   },
   "markets": {
     "title": "Markets Explorer",
@@ -70,6 +79,19 @@
     "embed": "Embed",
     "copyLink": "Copy Link",
     "copied": "Copied!",
+    "volAbbr": "Vol",
+    "liqAbbr": "Liq",
+    "notFound": "Market not found",
+    "backToMarkets": "Back to Markets",
+    "resolutionLink": "Resolution Source",
+    "embedTitle": "Embed this market",
+    "embedTheme": "Theme",
+    "embedDark": "Dark",
+    "embedLight": "Light",
+    "embedHeight": "Height",
+    "embedCopy": "Copy",
+    "embedCopied": "Copied!",
+    "embedPreview": "Preview embed",
     "aiAnalysis": {
       "title": "AI Analysis",
       "generate": "Generate Analysis",
@@ -96,7 +118,9 @@
       "week": "This Week",
       "month": "This Month",
       "all": "All Time"
-    }
+    },
+    "noData": "No data available",
+    "culture": "Culture"
   },
   "common": {
     "loading": "Loading...",
@@ -104,7 +128,16 @@
     "retry": "Retry",
     "connected": "Connected",
     "disconnected": "Disconnected",
-    "connecting": "Connecting..."
+    "connecting": "Connecting...",
+    "back": "Back",
+    "anonymous": "Anonymous",
+    "somethingWentWrong": "Something went wrong",
+    "unexpectedError": "An unexpected error occurred",
+    "yes": "Yes",
+    "no": "No",
+    "notFoundTitle": "Page Not Found",
+    "notFoundDescription": "The page you're looking for doesn't exist.",
+    "notFoundGoHome": "Go Home"
   },
   "auth": {
     "login": "Log In",
@@ -119,7 +152,14 @@
     "registerButton": "Create Account",
     "logout": "Log Out",
     "points": "Points",
-    "welcomeBonus": "You'll receive 1,000 points to start predicting!"
+    "welcomeBonus": "You'll receive 1,000 points to start predicting!",
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "passwordMismatch": "Passwords don't match",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "registrationFailed": "Registration failed",
+      "autoLoginFailed": "Account created but login failed. Please login manually."
+    }
   },
   "portfolio": {
     "title": "Portfolio",
@@ -181,6 +221,14 @@
       "entertainment": "Entertainment",
       "technology": "Technology"
     },
+    "loginRequired": "Please login to create a prediction.",
+    "notFound": "Prediction not found",
+    "backToPredictions": "Back to Predictions",
+    "recentPredictions": "Recent Predictions",
+    "empty": "No predictions yet. Be the first to create one!",
+    "pointsSuffix": "pts",
+    "confirmResolve": "Resolve as {result}?",
+    "failedToCreate": "Failed to create",
     "comments": {
       "title": "Comments",
       "placeholder": "Share your thoughts...",
@@ -189,5 +237,9 @@
       "loginToComment": "Log in to comment",
       "charLimit": "characters remaining"
     }
+  },
+  "footer": {
+    "tagline": "PredictFlow — Real-time Prediction Market Analytics",
+    "disclaimer": "Data powered by Polymarket. Not affiliated with Polymarket."
   }
 }

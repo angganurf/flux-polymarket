@@ -1,56 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PortfolioStats } from "@/components/portfolio/portfolio-stats";
 import { BetHistory } from "@/components/portfolio/bet-history";
 import { ActiveBets } from "@/components/portfolio/active-bets";
-import { BetWithEvent } from "@/lib/types/portfolio";
-
-interface Stats {
-  totalBets: number;
-  activeBets: number;
-  wonBets: number;
-  lostBets: number;
-  totalWagered: number;
-  totalPayout: number;
-  pnl: number;
-  winRate: number;
-}
+import { usePortfolio } from "@/lib/hooks/use-portfolio";
 
 export default function PortfolioPage() {
   const t = useTranslations("portfolio");
   const tAuth = useTranslations("auth");
   const { data: session, status: sessionStatus } = useSession();
-  const [bets, setBets] = useState<BetWithEvent[]>([]);
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (sessionStatus === "authenticated") {
-      fetchBets();
-    } else if (sessionStatus === "unauthenticated") {
-      setLoading(false);
-    }
-  }, [sessionStatus]);
-
-  const fetchBets = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/user/bets");
-      if (!res.ok) throw new Error("Failed to fetch");
-      const data = await res.json();
-      setBets(data.bets ?? []);
-      setStats(data.stats ?? null);
-    } catch {
-      setBets([]);
-      setStats(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data, isLoading } = usePortfolio();
+  const bets = data?.bets ?? [];
+  const stats = data?.stats ?? null;
+  const loading = isLoading;
 
   // Unauthenticated state
   if (sessionStatus === "unauthenticated") {

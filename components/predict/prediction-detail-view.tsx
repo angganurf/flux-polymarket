@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -9,33 +9,8 @@ import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/utils/format";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { CommentSection } from "@/components/predict/comment-section";
-
-interface BetEntry {
-  id: string;
-  choice: string;
-  amount: number;
-  payout: number | null;
-  createdAt: string;
-  user: { id: string; name: string | null };
-}
-
-interface EventDetail {
-  id: string;
-  title: string;
-  description: string | null;
-  category: string;
-  endDate: string;
-  status: string;
-  result: string | null;
-  creator: { id: string; name: string | null };
-  bets: BetEntry[];
-  yesProbability: number;
-  noProbability: number;
-  totalVolume: number;
-  yesVolume: number;
-  noVolume: number;
-  totalBets: number;
-}
+import { usePredictionEvent } from "@/lib/hooks/use-prediction-events";
+import { usePlaceBet, useResolveEvent } from "@/lib/hooks/use-prediction-mutations";
 
 interface PredictionDetailViewProps {
   id: string;
@@ -43,72 +18,33 @@ interface PredictionDetailViewProps {
 
 export function PredictionDetailView({ id }: PredictionDetailViewProps) {
   const t = useTranslations("predict");
+  const tc = useTranslations("common");
   const { data: session } = useSession();
-  const [event, setEvent] = useState<EventDetail | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data: event, isLoading: loading } = usePredictionEvent(id);
+  const placeBetMutation = usePlaceBet();
+  const resolveEventMutation = useResolveEvent();
   const [betChoice, setBetChoice] = useState<"yes" | "no" | null>(null);
   const [betAmount, setBetAmount] = useState("100");
-  const [betting, setBetting] = useState(false);
-  const [betError, setBetError] = useState("");
 
-  useEffect(() => {
-    fetchEvent();
-  }, [id]);
-
-  const fetchEvent = async () => {
-    try {
-      const res = await fetch(`/api/events/${id}`);
-      if (res.ok) {
-        setEvent(await res.json());
-      }
-    } catch {
-      /* ignore */
-    } finally {
-      setLoading(false);
-    }
-  };
+  const betting = placeBetMutation.isPending;
+  const betError = placeBetMutation.error?.message ?? "";
 
   const handleBet = async () => {
     if (!betChoice || !betAmount) return;
-    setBetError("");
-    setBetting(true);
-    try {
-      const res = await fetch("/api/bets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventId: id,
-          choice: betChoice,
-          amount: parseInt(betAmount),
-        }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        setBetError(data.error || "Failed to place bet");
-      } else {
-        setBetChoice(null);
-        setBetAmount("100");
-        fetchEvent();
+    placeBetMutation.mutate(
+      { eventId: id, choice: betChoice, amount: parseInt(betAmount) },
+      {
+        onSuccess: () => {
+          setBetChoice(null);
+          setBetAmount("100");
+        },
       }
-    } catch {
-      setBetError("Something went wrong");
-    } finally {
-      setBetting(false);
-    }
+    );
   };
 
   const handleResolve = async (result: "yes" | "no") => {
-    if (!confirm(`Resolve as ${result.toUpperCase()}?`)) return;
-    try {
-      const res = await fetch(`/api/events/${id}/resolve`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ result }),
-      });
-      if (res.ok) fetchEvent();
-    } catch {
-      /* ignore */
-    }
+    if (!confirm(t("confirmResolve", { result: result.toUpperCase() }))) return;
+    resolveEventMutation.mutate({ eventId: id, result });
   };
 
   // Build share URL (client-side)
@@ -124,15 +60,19 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
     );
   }
 
-  if (!event) {
+  if (!loading && !event) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-        <p className="text-muted">Prediction not found</p>
+        <p className="text-muted">{t("notFound")}</p>
         <Link href="/predict" className="mt-4 inline-block text-primary">
-          Back to Predictions
+          {t("backToPredictions")}
         </Link>
       </div>
     );
+  }
+
+  if (!event) {
+    return null;
   }
 
   const yesPercent = Math.round(event.yesProbability * 100);
@@ -146,7 +86,7 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
         href="/predict"
         className="flex items-center gap-1 text-sm text-muted hover:text-foreground mb-6"
       >
-        <ArrowLeft className="h-4 w-4" /> Back
+        <ArrowLeft className="h-4 w-4" /> {tc("back")}
       </Link>
 
       {/* Share buttons */}
@@ -285,7 +225,7 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
               >
                 {betting
                   ? "..."
-                  : `${t("confirm")} ${betChoice.toUpperCase()} - ${betAmount} pts`}
+                  : `${t("confirm")} ${betChoice.toUpperCase()} - ${betAmount} ${t("pointsSuffix")}`}
               </button>
             </div>
           )}
@@ -314,7 +254,7 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
       {event.bets.length > 0 && (
         <div className="mt-6">
           <h3 className="text-sm font-semibold text-foreground mb-3">
-            Recent Predictions
+            {t("recentPredictions")}
           </h3>
           <div className="space-y-2">
             {event.bets.slice(0, 20).map((bet) => (
@@ -334,11 +274,11 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
                     {bet.choice.toUpperCase()}
                   </span>
                   <span className="text-sm text-muted">
-                    {bet.user.name || "Anonymous"}
+                    {bet.user.name || tc("anonymous")}
                   </span>
                 </div>
                 <span className="text-sm font-medium text-foreground">
-                  {bet.amount} pts
+                  {bet.amount} {t("pointsSuffix")}
                 </span>
               </div>
             ))}

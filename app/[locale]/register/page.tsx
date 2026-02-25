@@ -21,12 +21,12 @@ export default function RegisterPage() {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Passwords don't match");
+      setError(t("errors.passwordMismatch"));
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError(t("errors.passwordTooShort"));
       return;
     }
 
@@ -42,7 +42,7 @@ export default function RegisterPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Registration failed");
+        setError(data.error || t("errors.registrationFailed"));
         return;
       }
 
@@ -54,13 +54,13 @@ export default function RegisterPage() {
       });
 
       if (result?.error) {
-        setError("Account created but login failed. Please login manually.");
+        setError(t("errors.autoLoginFailed"));
       } else {
         router.push("/");
         router.refresh();
       }
     } catch {
-      setError("Something went wrong");
+      setError(t("errors.registrationFailed"));
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { formatVolume } from "@/lib/utils/format";
@@ -12,6 +13,7 @@ interface MarketCardProps {
 }
 
 export function MarketCard({ market }: MarketCardProps) {
+  const t = useTranslations("market");
   const livePrice = useMarketStore((s) => s.prices[market.clobTokenIds[0]]);
   const yesPrice = livePrice ?? market.yesPrice;
   const noPrice = livePrice != null ? 1 - livePrice : market.noPrice;
@@ -34,8 +36,8 @@ export function MarketCard({ market }: MarketCardProps) {
       {/* Probability bar */}
       <div className="mb-3">
         <div className="mb-1 flex justify-between text-xs font-semibold">
-          <span className="text-yes">{yesPercent}% Yes</span>
-          <span className="text-no">{100 - yesPercent}% No</span>
+          <span className="text-yes">{yesPercent}% {t("yes")}</span>
+          <span className="text-no">{100 - yesPercent}% {t("no")}</span>
         </div>
         <div className="flex h-2 overflow-hidden rounded-full bg-background">
           <div
@@ -51,8 +53,8 @@ export function MarketCard({ market }: MarketCardProps) {
 
       {/* Stats row */}
       <div className="flex items-center gap-4 text-xs text-muted">
-        <span>Vol {formatVolume(market.volume24h)}</span>
-        <span>Liq {formatVolume(market.liquidity)}</span>
+        <span>{t("volAbbr")} {formatVolume(market.volume24h)}</span>
+        <span>{t("liqAbbr")} {formatVolume(market.liquidity)}</span>
       </div>
     </Link>
   );

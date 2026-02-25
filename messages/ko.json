@@ -19,7 +19,16 @@
       "activeMarkets": "활성 마켓",
       "traders": "트레이더",
       "categories": "카테고리"
-    }
+    },
+    "heroBadge": "실시간 예측 시장 분석",
+    "trendingSubtitle": "지금 가장 활발한 마켓",
+    "whyTitle": "왜 PredictFlow인가?",
+    "realtimeTitle": "실시간 데이터",
+    "realtimeDesc": "예측 시장의 실시간 WebSocket 피드. 확률 변화를 실시간으로 확인하세요.",
+    "globalTitle": "글로벌 마켓",
+    "globalDesc": "정치, 스포츠, 암호화폐, 문화 등을 한 대시보드에서 추적하세요.",
+    "transparentTitle": "투명한 분석",
+    "transparentDesc": "공개 데이터, 명확한 방법론. 온체인 예측 시장 데이터로 구동됩니다."
   },
   "markets": {
     "title": "마켓 탐색",
@@ -70,6 +79,19 @@
     "embed": "임베드",
     "copyLink": "링크 복사",
     "copied": "복사됨!",
+    "volAbbr": "거래량",
+    "liqAbbr": "유동성",
+    "notFound": "마켓을 찾을 수 없습니다",
+    "backToMarkets": "마켓으로 돌아가기",
+    "resolutionLink": "결과 소스",
+    "embedTitle": "이 마켓 임베드",
+    "embedTheme": "테마",
+    "embedDark": "다크",
+    "embedLight": "라이트",
+    "embedHeight": "높이",
+    "embedCopy": "복사",
+    "embedCopied": "복사됨!",
+    "embedPreview": "임베드 미리보기",
     "aiAnalysis": {
       "title": "AI 분석",
       "generate": "분석 생성",
@@ -96,7 +118,9 @@
       "week": "이번 주",
       "month": "이번 달",
       "all": "전체 기간"
-    }
+    },
+    "noData": "데이터가 없습니다",
+    "culture": "문화"
   },
   "common": {
     "loading": "로딩 중...",
@@ -104,7 +128,16 @@
     "retry": "다시 시도",
     "connected": "연결됨",
     "disconnected": "연결 끊김",
-    "connecting": "연결 중..."
+    "connecting": "연결 중...",
+    "back": "뒤로",
+    "anonymous": "익명",
+    "somethingWentWrong": "문제가 발생했습니다",
+    "unexpectedError": "예기치 않은 오류가 발생했습니다",
+    "yes": "예",
+    "no": "아니오",
+    "notFoundTitle": "페이지를 찾을 수 없습니다",
+    "notFoundDescription": "찾고 있는 페이지가 존재하지 않습니다.",
+    "notFoundGoHome": "홈으로"
   },
   "auth": {
     "login": "로그인",
@@ -119,7 +152,14 @@
     "registerButton": "계정 만들기",
     "logout": "로그아웃",
     "points": "포인트",
-    "welcomeBonus": "예측을 시작할 1,000 포인트를 받으세요!"
+    "welcomeBonus": "예측을 시작할 1,000 포인트를 받으세요!",
+    "errors": {
+      "invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다",
+      "passwordMismatch": "비밀번호가 일치하지 않습니다",
+      "passwordTooShort": "비밀번호는 6자 이상이어야 합니다",
+      "registrationFailed": "회원가입에 실패했습니다",
+      "autoLoginFailed": "계정이 생성되었지만 자동 로그인에 실패했습니다. 수동으로 로그인해주세요."
+    }
   },
   "portfolio": {
     "title": "포트폴리오",
@@ -181,6 +221,14 @@
       "entertainment": "엔터테인먼트",
       "technology": "기술"
     },
+    "loginRequired": "예측을 만들려면 로그인해주세요.",
+    "notFound": "예측을 찾을 수 없습니다",
+    "backToPredictions": "예측으로 돌아가기",
+    "recentPredictions": "최근 예측",
+    "empty": "아직 예측이 없습니다. 첫 번째로 만들어 보세요!",
+    "pointsSuffix": "포인트",
+    "confirmResolve": "{result}(으)로 확정하시겠습니까?",
+    "failedToCreate": "생성에 실패했습니다",
     "comments": {
       "title": "댓글",
       "placeholder": "의견을 남겨보세요...",
@@ -189,5 +237,9 @@
       "loginToComment": "댓글을 작성하려면 로그인하세요",
       "charLimit": "자 남음"
     }
+  },
+  "footer": {
+    "tagline": "PredictFlow — 실시간 예측 시장 분석",
+    "disclaimer": "Polymarket 데이터 기반. Polymarket과 제휴하지 않습니다."
   }
 }

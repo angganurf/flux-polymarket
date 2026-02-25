@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useMarketDetail } from "@/lib/hooks/use-market-detail";
 import { useMarketWebSocket } from "@/lib/hooks/use-websocket";
 import { MarketHeader } from "@/components/market-detail/market-header";
@@ -18,6 +19,7 @@ interface MarketDetailViewProps {
 }
 
 export function MarketDetailView({ slug }: MarketDetailViewProps) {
+  const t = useTranslations("market");
   const { data: market, isLoading, error } = useMarketDetail(slug);
 
   const tokenId = market?.clobTokenIds[0];
@@ -42,12 +44,12 @@ export function MarketDetailView({ slug }: MarketDetailViewProps) {
   if (error || !market) {
     return (
       <div className="mx-auto max-w-5xl px-4 py-20 text-center">
-        <p className="text-muted">Market not found</p>
+        <p className="text-muted">{t("notFound")}</p>
         <Link
           href="/markets"
           className="mt-4 inline-block text-primary hover:underline"
         >
-          Back to Markets
+          {t("backToMarkets")}
         </Link>
       </div>
     );
@@ -62,7 +64,7 @@ export function MarketDetailView({ slug }: MarketDetailViewProps) {
           className="flex items-center gap-1 text-sm text-muted hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          Markets
+          {t("backToMarkets")}
         </Link>
         <ConnectionStatus status={connectionStatus} />
       </div>
@@ -89,7 +91,7 @@ export function MarketDetailView({ slug }: MarketDetailViewProps) {
           {market.description && (
             <div className="rounded-xl border border-border bg-surface p-4">
               <h3 className="mb-2 text-sm font-semibold text-foreground">
-                Description
+                {t("description")}
               </h3>
               <p className="text-sm leading-relaxed text-muted">
                 {market.description}
@@ -101,7 +103,7 @@ export function MarketDetailView({ slug }: MarketDetailViewProps) {
                   rel="noopener noreferrer"
                   className="mt-2 inline-block text-xs text-primary hover:underline"
                 >
-                  Resolution Source &rarr;
+                  {t("resolutionLink")} &rarr;
                 </a>
               )}
             </div>

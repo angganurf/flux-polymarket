@@ -3,21 +3,29 @@ import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const searchParams = request.nextUrl.searchParams;
+  const limit = Math.min(Math.max(1, parseInt(searchParams.get("limit") || "50") || 50), 100);
+  const offset = parseInt(searchParams.get("offset") || "0") || 0;
 
   try {
-    const comments = await prisma.comment.findMany({
-      where: { eventId: id },
-      include: {
-        user: { select: { id: true, name: true, image: true } },
-      },
-      orderBy: { createdAt: "desc" },
-    });
+    const [comments, total] = await Promise.all([
+      prisma.comment.findMany({
+        where: { eventId: id },
+        include: {
+          user: { select: { id: true, name: true, image: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        take: limit,
+        skip: offset,
+      }),
+      prisma.comment.count({ where: { eventId: id } }),
+    ]);
 
-    return NextResponse.json(comments);
+    return NextResponse.json({ comments, total, limit, offset });
   } catch {
     return NextResponse.json(
       { error: "Failed to fetch comments" },

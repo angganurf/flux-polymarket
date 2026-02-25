@@ -1,51 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Plus, Users, Coins } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface PredictionEvent {
-  id: string;
-  title: string;
-  description: string | null;
-  category: string;
-  endDate: string;
-  status: string;
-  result: string | null;
-  yesProbability: number;
-  totalVolume: number;
-  totalBets: number;
-  creator: { id: string; name: string | null };
-}
+import { usePredictionEvents } from "@/lib/hooks/use-prediction-events";
 
 export default function PredictionsPage() {
   const t = useTranslations("predict");
   const { data: session } = useSession();
-  const [events, setEvents] = useState<PredictionEvent[]>([]);
-  const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("all");
-
-  useEffect(() => {
-    fetchEvents();
-  }, [category]);
-
-  const fetchEvents = async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({ status: "active" });
-      if (category !== "all") params.set("category", category);
-      const res = await fetch(`/api/events?${params}`);
-      const data = await res.json();
-      setEvents(Array.isArray(data) ? data : []);
-    } catch {
-      setEvents([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: events = [], isLoading: loading } = usePredictionEvents({ status: "active", category });
 
   const categories = [
     { id: "all", label: t("categories.general") },
@@ -159,7 +126,7 @@ export default function PredictionsPage() {
 
       {!loading && events.length === 0 && (
         <div className="py-20 text-center text-muted">
-          No predictions yet. Be the first to create one!
+          {t("empty")}
         </div>
       )}
     </div>

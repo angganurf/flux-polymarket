@@ -24,7 +24,7 @@ export function LeaderboardFilters({
     POLITICS: t("categories.politics"),
     SPORTS: t("categories.sports"),
     CRYPTO: t("categories.crypto"),
-    CULTURE: "Culture",
+    CULTURE: t("culture"),
   };
 
   const periodLabels: Record<string, string> = {

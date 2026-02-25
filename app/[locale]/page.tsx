@@ -9,6 +9,7 @@ import { BarChart3, TrendingUp, Users, Layers, ArrowRight, Zap, Globe, Shield } 
 
 export default function HomePage() {
   const t = useTranslations("home");
+  const tn = useTranslations("nav");
 
   // Fetch trending (high volume) markets
   const { data: trendingEvents } = useEvents({
@@ -36,7 +37,7 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 py-20 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 text-xs text-muted mb-6">
             <Zap className="h-3 w-3 text-primary" />
-            Real-time prediction market analytics
+            {t("heroBadge")}
           </div>
 
           <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
@@ -58,7 +59,7 @@ export default function HomePage() {
               href="/leaderboard"
               className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-surface-hover"
             >
-              Leaderboard
+              {tn("leaderboard")}
             </Link>
           </div>
 
@@ -77,7 +78,7 @@ export default function HomePage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-bold text-foreground">{t("trending")}</h2>
-            <p className="mt-1 text-sm text-muted">Most active markets right now</p>
+            <p className="mt-1 text-sm text-muted">{t("trendingSubtitle")}</p>
           </div>
           <Link
             href="/markets"
@@ -117,23 +118,23 @@ export default function HomePage() {
       <section className="border-t border-border bg-surface/30">
         <div className="mx-auto max-w-7xl px-4 py-16">
           <h2 className="text-center text-2xl font-bold text-foreground">
-            Why PredictFlow?
+            {t("whyTitle")}
           </h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-3">
             <FeatureCard
               icon={Zap}
-              title="Real-time Data"
-              description="Live WebSocket feeds from prediction markets. See probabilities change in real-time."
+              title={t("realtimeTitle")}
+              description={t("realtimeDesc")}
             />
             <FeatureCard
               icon={Globe}
-              title="Global Markets"
-              description="Track politics, sports, crypto, culture and more. All in one dashboard."
+              title={t("globalTitle")}
+              description={t("globalDesc")}
             />
             <FeatureCard
               icon={Shield}
-              title="Transparent Analytics"
-              description="Open data, clear methodology. Powered by on-chain prediction market data."
+              title={t("transparentTitle")}
+              description={t("transparentDesc")}
             />
           </div>
         </div>

@@ -8,35 +8,54 @@ export async function GET(request: NextRequest) {
   const status = searchParams.get("status") || "active";
   const category = searchParams.get("category");
   const limit = Math.min(Math.max(1, parseInt(searchParams.get("limit") || "20") || 20), 100);
-  const offset = parseInt(searchParams.get("offset") || "0");
+  const offset = parseInt(searchParams.get("offset") || "0") || 0;
 
   try {
     const where: Record<string, unknown> = {};
     if (status !== "all") where.status = status;
     if (category && category !== "all") where.category = category;
 
+    // Fetch events WITHOUT loading all bets (no N+1)
     const events = await prisma.predictionEvent.findMany({
       where,
       include: {
         creator: { select: { id: true, name: true, image: true } },
-        bets: { select: { choice: true, amount: true } },
       },
       orderBy: { createdAt: "desc" },
       take: limit,
       skip: offset,
     });
 
-    // Calculate probabilities from bets
+    if (events.length === 0) {
+      return NextResponse.json([]);
+    }
+
+    // Single aggregation query for all events' bet volumes
+    const betStats = await prisma.bet.groupBy({
+      by: ["eventId", "choice"],
+      where: { eventId: { in: events.map((e) => e.id) } },
+      _sum: { amount: true },
+      _count: true,
+    });
+
+    // Build lookup map: eventId -> { yes, no, count }
+    const statsMap = new Map<string, { yes: number; no: number; count: number }>();
+    for (const event of events) {
+      statsMap.set(event.id, { yes: 0, no: 0, count: 0 });
+    }
+    for (const stat of betStats) {
+      const entry = statsMap.get(stat.eventId);
+      if (!entry) continue;
+      if (stat.choice === "yes") entry.yes = stat._sum?.amount ?? 0;
+      if (stat.choice === "no") entry.no = stat._sum?.amount ?? 0;
+      entry.count += stat._count;
+    }
+
+    // Enrich events with computed probabilities
     const eventsWithProbability = events.map((event) => {
-      const yesTotal = event.bets
-        .filter((b) => b.choice === "yes")
-        .reduce((sum, b) => sum + b.amount, 0);
-      const noTotal = event.bets
-        .filter((b) => b.choice === "no")
-        .reduce((sum, b) => sum + b.amount, 0);
-      const total = yesTotal + noTotal;
-      const yesProbability = total > 0 ? yesTotal / total : 0.5;
-      const totalBets = event.bets.length;
+      const stats = statsMap.get(event.id) ?? { yes: 0, no: 0, count: 0 };
+      const total = stats.yes + stats.no;
+      const yesProbability = total > 0 ? stats.yes / total : 0.5;
 
       return {
         id: event.id,
@@ -52,7 +71,7 @@ export async function GET(request: NextRequest) {
         yesProbability,
         noProbability: 1 - yesProbability,
         totalVolume: total,
-        totalBets,
+        totalBets: stats.count,
       };
     });
 
