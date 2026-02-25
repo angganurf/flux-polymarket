@@ -4,22 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/utils/format";
-
-interface BetWithEvent {
-  id: string;
-  choice: string;
-  amount: number;
-  payout: number | null;
-  createdAt: string;
-  event: {
-    id: string;
-    title: string;
-    status: string;
-    result: string | null;
-    endDate: string;
-    category: string;
-  };
-}
+import { BetWithEvent } from "@/lib/types/portfolio";
 
 interface BetHistoryProps {
   bets: BetWithEvent[];

@@ -206,7 +206,8 @@ export default function EmbedMarketPage({
   // Compute chart height: total minus header (~120px) minus footer (~28px) minus padding
   const chartHeight = Math.max(totalHeight - 160, 100);
 
-  const fullMarketUrl = `https://predictflow.app/en/markets/${slug}`;
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_BASE_URL || "https://predictflow.app");
+  const fullMarketUrl = `${baseUrl}/en/markets/${slug}`;
 
   if (isLoading) {
     return (
@@ -357,7 +358,7 @@ export default function EmbedMarketPage({
         }}
       >
         <a
-          href="https://predictflow.app"
+          href={baseUrl}
           target="_blank"
           rel="noopener noreferrer"
           style={{

@@ -68,10 +68,13 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { error: "User already exists" },
-        { status: 409 }
-      );
+      // Return same shape as success to prevent user enumeration
+      return NextResponse.json({
+        id: existingUser.id,
+        name: existingUser.name,
+        email: existingUser.email,
+        points: existingUser.points,
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

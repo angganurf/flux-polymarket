@@ -1,6 +1,7 @@
 import { PrismaClient } from "../lib/generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import path from "path";
+import bcrypt from "bcryptjs";
 
 const dbUrl = process.env.DATABASE_URL ?? "file:./dev.db";
 const dbPath = dbUrl.replace(/^file:/, "");
@@ -82,10 +83,12 @@ async function main() {
 
   if (!creator) {
     console.log("No users found. Creating system user...");
+    const systemPassword = await bcrypt.hash("PF-system-" + Date.now().toString(36), 10);
     creator = await prisma.user.create({
       data: {
         name: "PredictFlow",
         email: "system@predictflow.app",
+        password: systemPassword,
         points: 10000,
         role: "admin",
       },

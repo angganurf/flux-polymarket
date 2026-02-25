@@ -211,7 +211,7 @@ export async function GET(req: NextRequest) {
                 opacity: 0.6,
               }}
             >
-              predictflow.app
+              {new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://predictflow.app").hostname}
             </span>
           </div>
         </div>

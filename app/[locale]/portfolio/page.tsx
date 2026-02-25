@@ -7,22 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { PortfolioStats } from "@/components/portfolio/portfolio-stats";
 import { BetHistory } from "@/components/portfolio/bet-history";
 import { ActiveBets } from "@/components/portfolio/active-bets";
-
-interface BetWithEvent {
-  id: string;
-  choice: string;
-  amount: number;
-  payout: number | null;
-  createdAt: string;
-  event: {
-    id: string;
-    title: string;
-    status: string;
-    result: string | null;
-    endDate: string;
-    category: string;
-  };
-}
+import { BetWithEvent } from "@/lib/types/portfolio";
 
 interface Stats {
   totalBets: number;
