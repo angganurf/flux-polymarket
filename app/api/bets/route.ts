@@ -6,9 +6,19 @@ import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  const { allowed } = checkRateLimit(`bets:${ip}`, { maxRequests: 10, windowMs: 60 * 1000 });
-  if (!allowed) {
-    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  const rateLimit = checkRateLimit(`bets:${ip}`, { maxRequests: 10, windowMs: 60 * 1000 });
+  if (rateLimit.limited) {
+    return NextResponse.json(
+      { error: "Too many requests" },
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": "10",
+          "X-RateLimit-Remaining": "0",
+          "Retry-After": String(Math.ceil(rateLimit.resetIn / 1000)),
+        },
+      }
+    );
   }
 
   const elapsed = createTimer();
@@ -92,7 +102,12 @@ export async function POST(request: NextRequest) {
     });
 
     logInfo("Bet placed", { path: "/api/bets", userId, eventId, amount, duration: elapsed() });
-    return NextResponse.json(bet, { status: 201 });
+    return NextResponse.json(bet, {
+      status: 201,
+      headers: {
+        "X-RateLimit-Remaining": String(rateLimit.remaining),
+      },
+    });
   } catch (error) {
     if (error instanceof Error && error.message === "INSUFFICIENT_POINTS") {
       return NextResponse.json(

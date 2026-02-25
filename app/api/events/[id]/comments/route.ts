@@ -41,9 +41,19 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  const { allowed } = checkRateLimit(`comments:${ip}`, { maxRequests: 10, windowMs: 60 * 1000 });
-  if (!allowed) {
-    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  const rateLimit = checkRateLimit(`comments:${ip}`, { maxRequests: 10, windowMs: 60 * 1000 });
+  if (rateLimit.limited) {
+    return NextResponse.json(
+      { error: "Too many requests" },
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": "10",
+          "X-RateLimit-Remaining": "0",
+          "Retry-After": String(Math.ceil(rateLimit.resetIn / 1000)),
+        },
+      }
+    );
   }
 
   const session = await auth();
@@ -115,7 +125,12 @@ export async function POST(
       }).catch(() => {});
     }
 
-    return NextResponse.json(comment, { status: 201 });
+    return NextResponse.json(comment, {
+      status: 201,
+      headers: {
+        "X-RateLimit-Remaining": String(rateLimit.remaining),
+      },
+    });
   } catch {
     return NextResponse.json(
       { error: "Failed to create comment" },

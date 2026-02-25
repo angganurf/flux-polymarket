@@ -207,7 +207,8 @@ export default function EmbedMarketPage({
   const chartHeight = Math.max(totalHeight - 160, 100);
 
   const baseUrl = typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_BASE_URL || "https://predictflow.app");
-  const fullMarketUrl = `${baseUrl}/en/markets/${slug}`;
+  const locale = searchParams.get("locale") || "en";
+  const fullMarketUrl = `${baseUrl}/${locale}/markets/${slug}`;
 
   if (isLoading) {
     return (

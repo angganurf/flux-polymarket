@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { prisma } from "@/lib/db";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://predictflow.app";
 
@@ -25,26 +26,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  // Dynamic: try to fetch prediction events for sitemap
+  // Dynamic: query prediction events directly via Prisma (no fetch needed)
   let eventEntries: MetadataRoute.Sitemap = [];
   try {
-    const res = await fetch(`${BASE_URL}/api/events?limit=100&status=active`, {
-      next: { revalidate: 3600 },
+    const events = await prisma.predictionEvent.findMany({
+      where: { status: "active" },
+      select: { id: true, updatedAt: true },
+      orderBy: { updatedAt: "desc" },
+      take: 100,
     });
-    if (res.ok) {
-      const data = await res.json();
-      const events = Array.isArray(data) ? data : (data.events ?? []);
-      eventEntries = locales.flatMap((locale) =>
-        events.map((event: { id: string; updatedAt?: string }) => ({
-          url: `${BASE_URL}/${locale}/predict/${event.id}`,
-          lastModified: event.updatedAt ? new Date(event.updatedAt) : new Date(),
-          changeFrequency: "daily" as const,
-          priority: 0.7,
-        }))
-      );
-    }
+
+    eventEntries = locales.flatMap((locale) =>
+      events.map((event) => ({
+        url: `${BASE_URL}/${locale}/predict/${event.id}`,
+        lastModified: event.updatedAt,
+        changeFrequency: "daily" as const,
+        priority: 0.7,
+      }))
+    );
   } catch {
-    // Sitemap generation should not fail
+    // Sitemap generation should not fail the build
   }
 
   return [...staticEntries, ...eventEntries];

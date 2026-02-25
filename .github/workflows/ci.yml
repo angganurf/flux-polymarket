@@ -20,11 +20,26 @@ jobs:
       - run: npx prisma generate
       - run: npx tsc --noEmit
       - run: npx eslint . --max-warnings 0
-        continue-on-error: true  # ESLint may have warnings in initial setup
+    env:
+      DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
 
   test:
     name: Tests
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: predictflow_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,10 +48,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx prisma generate
+      - run: npx prisma db push
       - run: npx vitest run --reporter=verbose
     env:
       AUTH_SECRET: ci-test-secret-that-is-long-enough-for-validation
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
+      DATABASE_URL: postgresql://test:test@localhost:5432/predictflow_test
 
   build:
     name: Build
@@ -53,4 +69,4 @@ jobs:
       - run: npm run build
     env:
       AUTH_SECRET: ci-build-secret-that-is-long-enough-for-validation
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/builddb
+      DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy

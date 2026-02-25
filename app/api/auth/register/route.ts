@@ -11,15 +11,22 @@ function stripHtml(input: string): string {
 export async function POST(request: NextRequest) {
   // Rate limit: 5 registration attempts per IP per 15 minutes
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  const { allowed } = checkRateLimit(`register:${ip}`, {
+  const rateLimit = checkRateLimit(`register:${ip}`, {
     maxRequests: 5,
     windowMs: 15 * 60 * 1000,
   });
 
-  if (!allowed) {
+  if (rateLimit.limited) {
     return NextResponse.json(
       { error: "Too many registration attempts. Please try again later." },
-      { status: 429 }
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": "5",
+          "X-RateLimit-Remaining": "0",
+          "Retry-After": String(Math.ceil(rateLimit.resetIn / 1000)),
+        },
+      }
     );
   }
 
@@ -67,14 +74,21 @@ export async function POST(request: NextRequest) {
       where: { email: email.toLowerCase().trim() },
     });
 
+    const rateLimitHeaders = {
+      "X-RateLimit-Remaining": String(rateLimit.remaining),
+    };
+
     if (existingUser) {
       // Return same shape as success to prevent user enumeration
-      return NextResponse.json({
-        id: existingUser.id,
-        name: existingUser.name,
-        email: existingUser.email,
-        points: existingUser.points,
-      });
+      return NextResponse.json(
+        {
+          id: existingUser.id,
+          name: existingUser.name,
+          email: existingUser.email,
+          points: existingUser.points,
+        },
+        { headers: rateLimitHeaders }
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -88,12 +102,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      points: user.points,
-    });
+    return NextResponse.json(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        points: user.points,
+      },
+      { headers: rateLimitHeaders }
+    );
   } catch {
     return NextResponse.json(
       { error: "Registration failed" },

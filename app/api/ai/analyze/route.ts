@@ -26,13 +26,25 @@ export async function POST(req: Request) {
   const rateLimitKey = session.user.id
     ? `ai-analyze:user:${session.user.id}`
     : `ai-analyze:ip:${req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"}`;
-  const { allowed } = checkRateLimit(rateLimitKey, { maxRequests: 5, windowMs: 60 * 1000 });
-  if (!allowed) {
+  const rateLimit = checkRateLimit(rateLimitKey, { maxRequests: 5, windowMs: 60 * 1000 });
+  if (rateLimit.limited) {
     return new Response(
       JSON.stringify({ error: "Too many requests. Please try again later." }),
-      { status: 429, headers: { "Content-Type": "application/json" } }
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "X-RateLimit-Limit": "5",
+          "X-RateLimit-Remaining": "0",
+          "Retry-After": String(Math.ceil(rateLimit.resetIn / 1000)),
+        },
+      }
     );
   }
+
+  const rateLimitHeaders = {
+    "X-RateLimit-Remaining": String(rateLimit.remaining),
+  };
 
   // If no API key, return a mock analysis
   if (!process.env.OPENAI_API_KEY) {
@@ -41,7 +53,7 @@ export async function POST(req: Request) {
         analysis:
           "AI analysis requires an OpenAI API key. Configure OPENAI_API_KEY in your .env file to enable this feature.",
       }),
-      { headers: { "Content-Type": "application/json" } }
+      { headers: { "Content-Type": "application/json", ...rateLimitHeaders } }
     );
   }
 
@@ -65,7 +77,7 @@ export async function POST(req: Request) {
     const priceChange24h = typeof body.priceChange24h === "number" ? body.priceChange24h : null;
     const priceChange1w = typeof body.priceChange1w === "number" ? body.priceChange1w : null;
 
-    const result = streamText({
+    const streamResult = streamText({
       model: openai("gpt-4o-mini"),
       system:
         "You are a prediction market analyst. Provide concise, insightful analysis of prediction markets. Focus on: 1) Current probability interpretation, 2) Recent trends and what they mean, 3) Key factors that could move the market, 4) Risk assessment. Keep responses under 300 words. Be objective and data-driven. Use markdown formatting with **bold** for emphasis and bullet points for lists.",
@@ -82,7 +94,10 @@ ${description ? `Description: ${description}` : ""}
 Provide a brief market analysis.`,
     });
 
-    return result.toTextStreamResponse();
+    const streamResponse = streamResult.toTextStreamResponse();
+    // Attach rate limit header to the streaming response
+    streamResponse.headers.set("X-RateLimit-Remaining", String(rateLimit.remaining));
+    return streamResponse;
   } catch {
     return new Response(
       JSON.stringify({ error: "Failed to analyze market" }),

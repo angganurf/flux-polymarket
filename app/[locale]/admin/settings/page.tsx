@@ -144,6 +144,7 @@ function SectionHeader({
 
 export default function AdminSettingsPage() {
   const t = useTranslations("admin");
+  const tErrors = useTranslations("errors");
 
   const [data, setData] = useState<SystemData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -220,7 +221,7 @@ export default function AdminSettingsPage() {
             className="mt-4 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm text-foreground hover:bg-surface transition-colors"
           >
             <RefreshCw className="h-3.5 w-3.5" />
-            Retry
+            {tErrors("tryAgain")}
           </button>
         </div>
       </div>

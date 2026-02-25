@@ -19,8 +19,11 @@ interface RateLimitOptions {
 }
 
 interface RateLimitResult {
-  allowed: boolean;
+  /** True when the request should be blocked (limit exceeded). */
+  limited: boolean;
+  /** Number of requests remaining in the current window. */
   remaining: number;
+  /** Milliseconds until the current window resets. */
   resetIn: number;
 }
 
@@ -36,16 +39,16 @@ export function checkRateLimit(
       count: 1,
       resetTime: now + options.windowMs,
     });
-    return { allowed: true, remaining: options.maxRequests - 1, resetIn: options.windowMs };
+    return { limited: false, remaining: options.maxRequests - 1, resetIn: options.windowMs };
   }
 
   if (entry.count >= options.maxRequests) {
-    return { allowed: false, remaining: 0, resetIn: entry.resetTime - now };
+    return { limited: true, remaining: 0, resetIn: entry.resetTime - now };
   }
 
   entry.count++;
   return {
-    allowed: true,
+    limited: false,
     remaining: options.maxRequests - entry.count,
     resetIn: entry.resetTime - now,
   };

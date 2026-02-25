@@ -85,9 +85,19 @@ export async function GET(request: NextRequest) {
 // POST - Create a new event
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  const { allowed } = checkRateLimit(`events:${ip}`, { maxRequests: 5, windowMs: 300 * 1000 });
-  if (!allowed) {
-    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  const rateLimit = checkRateLimit(`events:${ip}`, { maxRequests: 5, windowMs: 300 * 1000 });
+  if (rateLimit.limited) {
+    return NextResponse.json(
+      { error: "Too many requests" },
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": "5",
+          "X-RateLimit-Remaining": "0",
+          "Retry-After": String(Math.ceil(rateLimit.resetIn / 1000)),
+        },
+      }
+    );
   }
 
   const session = await auth();
@@ -128,7 +138,12 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(event, { status: 201 });
+    return NextResponse.json(event, {
+      status: 201,
+      headers: {
+        "X-RateLimit-Remaining": String(rateLimit.remaining),
+      },
+    });
   } catch {
     return NextResponse.json({ error: "Failed to create event" }, { status: 500 });
   }
