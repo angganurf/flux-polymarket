@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { createNotification } from "@/lib/notifications";
 
 export async function GET(
   request: NextRequest,
@@ -90,6 +91,22 @@ export async function POST(
         user: { select: { id: true, name: true, image: true } },
       },
     });
+
+    // Notify the event creator about the new comment (if commenter is not the creator)
+    if (event.creatorId !== session.user.id) {
+      const truncatedContent =
+        trimmed.length > 100 ? trimmed.slice(0, 100) + "..." : trimmed;
+      const commenterName =
+        comment.user.name || session.user.name || "Someone";
+
+      createNotification({
+        userId: event.creatorId,
+        type: "comment_reply",
+        title: "New comment",
+        message: `${commenterName} commented on "${event.title}": ${truncatedContent}`,
+        link: `/predict/${event.id}`,
+      }).catch(() => {});
+    }
 
     return NextResponse.json(comment, { status: 201 });
   } catch {

@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { BarChart3, Mail, Lock, User, Gift } from "lucide-react";
+import { OAuthButtons } from "@/components/auth/oauth-buttons";
 
 export default function RegisterPage() {
   const t = useTranslations("auth");
@@ -83,7 +84,22 @@ export default function RegisterPage() {
           <p className="text-sm text-yes">{t("welcomeBonus")}</p>
         </div>
 
-        {/* Form */}
+        {/* OAuth Buttons */}
+        <OAuthButtons />
+
+        {/* Divider */}
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-border" />
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-background px-3 text-muted">
+              {t("orSignUpWith")}
+            </span>
+          </div>
+        </div>
+
+        {/* Credentials Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="rounded-lg bg-no/10 px-4 py-2.5 text-sm text-no">

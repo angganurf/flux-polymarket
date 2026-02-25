@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // === Auth Models (NextAuth) ===
@@ -21,11 +21,13 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts Account[]
-  sessions Session[]
-  bets     Bet[]
-  events   PredictionEvent[] @relation("EventCreator")
-  comments Comment[]
+  accounts              Account[]
+  sessions              Session[]
+  bets                  Bet[]
+  events                PredictionEvent[] @relation("EventCreator")
+  comments              Comment[]
+  notifications         Notification[]
+  notificationPreference NotificationPreference?
 }
 
 model Account {
@@ -109,4 +111,36 @@ model Comment {
 
   @@index([eventId])
   @@index([userId])
+}
+
+// === Notification Models ===
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // "bet_result" | "event_resolved" | "comment_reply" | "points_earned" | "system"
+  title     String
+  message   String
+  link      String?  // optional URL to navigate to
+  read      Boolean  @default(false)
+  emailSent Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+}
+
+model NotificationPreference {
+  id             String  @id @default(cuid())
+  userId         String  @unique
+  inAppEnabled   Boolean @default(true)
+  emailEnabled   Boolean @default(false)
+  betResults     Boolean @default(true)
+  eventResolved  Boolean @default(true)
+  commentReplies Boolean @default(true)
+  systemAlerts   Boolean @default(true)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

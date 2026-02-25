@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GAMMA_API_URL } from "@/lib/utils/constants";
 import { filterProxyParams } from "@/lib/api/proxy-params";
+import { cachedProxyFetch } from "@/lib/api/cached-fetch";
 
 export async function GET(request: NextRequest) {
   const filtered = filterProxyParams(request.nextUrl.searchParams, "markets");
   try {
-    const res = await fetch(`${GAMMA_API_URL}/markets?${filtered}`, {
-      headers: { "Accept": "application/json" },
-      next: { revalidate: 30 },
-    });
-    if (!res.ok) {
-      return NextResponse.json({ error: "Upstream error" }, { status: res.status });
-    }
-    const data = await res.json();
-    return NextResponse.json(data);
+    return await cachedProxyFetch(
+      `markets:${filtered}`,
+      "EVENTS_LIST",
+      () =>
+        fetch(`${GAMMA_API_URL}/markets?${filtered}`, {
+          headers: { "Accept": "application/json" },
+        })
+    );
   } catch {
     return NextResponse.json({ error: "Failed to fetch markets" }, { status: 500 });
   }

@@ -5,7 +5,8 @@
     "leaderboard": "Leaderboard",
     "about": "About",
     "predict": "Predict",
-    "portfolio": "Portfolio"
+    "portfolio": "Portfolio",
+    "admin": "Admin"
   },
   "home": {
     "title": "PredictFlow",
@@ -153,6 +154,10 @@
     "logout": "Log Out",
     "points": "Points",
     "welcomeBonus": "You'll receive 1,000 points to start predicting!",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithKakao": "Continue with Kakao",
+    "orContinueWith": "or continue with email",
+    "orSignUpWith": "or sign up with email",
     "errors": {
       "invalidCredentials": "Invalid email or password",
       "passwordMismatch": "Passwords don't match",
@@ -241,5 +246,57 @@
   "footer": {
     "tagline": "PredictFlow — Real-time Prediction Market Analytics",
     "disclaimer": "Data powered by Polymarket. Not affiliated with Polymarket."
+  },
+  "offline": {
+    "title": "You're Offline",
+    "description": "Please check your internet connection and try again.",
+    "retry": "Retry"
+  },
+  "pwa": {
+    "install": "Install PredictFlow",
+    "installDescription": "Add to home screen for the best experience",
+    "installButton": "Install",
+    "dismiss": "Not now"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications yet",
+    "markAllRead": "Mark all as read",
+    "viewAll": "View all",
+    "unread": "unread",
+    "preferences": "Notification Preferences",
+    "inApp": "In-app notifications",
+    "email": "Email notifications",
+    "betResults": "Bet results",
+    "eventResolved": "Event resolutions",
+    "commentReplies": "Comment replies",
+    "systemAlerts": "System alerts",
+    "saved": "Preferences saved",
+    "timeAgo": "{time} ago"
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "events": "Events",
+    "settings": "Settings",
+    "totalUsers": "Total Users",
+    "activeEvents": "Active Events",
+    "totalBets": "Total Bets",
+    "pointsCirculation": "Points in Circulation",
+    "recentBets": "Recent Bets",
+    "recentUsers": "Recent Users",
+    "search": "Search users...",
+    "role": "Role",
+    "points": "Points",
+    "changeRole": "Change Role",
+    "forceResolve": "Force Resolve",
+    "cancel": "Cancel Event",
+    "confirmAction": "Are you sure?",
+    "noResults": "No results found",
+    "today": "Today",
+    "userManagement": "User Management",
+    "eventManagement": "Event Management",
+    "admin": "Admin"
   }
 }

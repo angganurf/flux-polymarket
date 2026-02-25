@@ -5,7 +5,8 @@
     "leaderboard": "리더보드",
     "about": "소개",
     "predict": "예측",
-    "portfolio": "포트폴리오"
+    "portfolio": "포트폴리오",
+    "admin": "관리자"
   },
   "home": {
     "title": "PredictFlow",
@@ -153,6 +154,10 @@
     "logout": "로그아웃",
     "points": "포인트",
     "welcomeBonus": "예측을 시작할 1,000 포인트를 받으세요!",
+    "continueWithGoogle": "Google로 계속하기",
+    "continueWithKakao": "카카오로 계속하기",
+    "orContinueWith": "또는 이메일로 계속",
+    "orSignUpWith": "또는 이메일로 가입",
     "errors": {
       "invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다",
       "passwordMismatch": "비밀번호가 일치하지 않습니다",
@@ -241,5 +246,57 @@
   "footer": {
     "tagline": "PredictFlow — 실시간 예측 시장 분석",
     "disclaimer": "Polymarket 데이터 기반. Polymarket과 제휴하지 않습니다."
+  },
+  "offline": {
+    "title": "오프라인 상태입니다",
+    "description": "인터넷 연결을 확인하고 다시 시도해 주세요.",
+    "retry": "다시 시도"
+  },
+  "pwa": {
+    "install": "PredictFlow 설치",
+    "installDescription": "홈 화면에 추가하여 최적의 환경을 경험하세요",
+    "installButton": "설치",
+    "dismiss": "나중에"
+  },
+  "notifications": {
+    "title": "알림",
+    "empty": "아직 알림이 없습니다",
+    "markAllRead": "모두 읽음 처리",
+    "viewAll": "전체 보기",
+    "unread": "읽지 않음",
+    "preferences": "알림 설정",
+    "inApp": "인앱 알림",
+    "email": "이메일 알림",
+    "betResults": "베팅 결과",
+    "eventResolved": "이벤트 해결",
+    "commentReplies": "댓글 답변",
+    "systemAlerts": "시스템 알림",
+    "saved": "설정이 저장되었습니다",
+    "timeAgo": "{time} 전"
+  },
+  "admin": {
+    "title": "관리자 대시보드",
+    "dashboard": "대시보드",
+    "users": "사용자",
+    "events": "이벤트",
+    "settings": "설정",
+    "totalUsers": "전체 사용자",
+    "activeEvents": "활성 이벤트",
+    "totalBets": "전체 베팅",
+    "pointsCirculation": "유통 포인트",
+    "recentBets": "최근 베팅",
+    "recentUsers": "최근 가입",
+    "search": "사용자 검색...",
+    "role": "역할",
+    "points": "포인트",
+    "changeRole": "역할 변경",
+    "forceResolve": "강제 해결",
+    "cancel": "이벤트 취소",
+    "confirmAction": "확실합니까?",
+    "noResults": "결과 없음",
+    "today": "오늘",
+    "userManagement": "사용자 관리",
+    "eventManagement": "이벤트 관리",
+    "admin": "관리자"
   }
 }

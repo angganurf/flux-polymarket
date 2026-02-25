@@ -1,0 +1,17 @@
+<!-- PredictFlow app icon — source for generating icon-192.png and icon-512.png
+     Generate PNGs with: npx sharp-cli input=public/icons/icon.svg output=public/icons/icon-192.png width=192 height=192
+     or use any SVG-to-PNG converter at 192×192 and 512×512 sizes. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="112" fill="#6366f1"/>
+  <text
+    x="256"
+    y="320"
+    font-family="system-ui, -apple-system, sans-serif"
+    font-size="220"
+    font-weight="700"
+    fill="white"
+    text-anchor="middle"
+    dominant-baseline="auto"
+    letter-spacing="-8"
+  >PF</text>
+</svg>

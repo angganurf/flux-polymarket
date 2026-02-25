@@ -7,7 +7,7 @@ PredictFlow is a prediction market analytics platform aiming to become Asia's #1
 - **Framework**: Next.js 16.1.6 (Turbopack, App Router)
 - **Language**: TypeScript 5.9
 - **Styling**: Tailwind CSS v4 with custom dark theme tokens (globals.css)
-- **DB**: Prisma 7 + SQLite via `@prisma/adapter-better-sqlite3`
+- **DB**: Prisma 7 + PostgreSQL (Docker)
 - **Auth**: NextAuth v5 (beta.30), JWT strategy, credentials provider
 - **State**: Zustand v5 (WebSocket prices), TanStack Query v5 (server state)
 - **i18n**: next-intl v4 (EN/KO)
@@ -67,11 +67,16 @@ URL routing logic is in `lib/api/fetch-helper.ts` (gammaUrl, clobUrl, dataUrl).
 - **Korean Seed Data**: 8 prediction events (4 Korean, 4 English) via `prisma/seed.ts`
 
 ## Database
+- **Engine**: PostgreSQL 17 via Docker
+- **Setup**: `docker compose up -d` to start PostgreSQL, then `npm run db:push` and `npm run db:seed`
+- **Connection**: `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/predictflow"`
 - Schema: `prisma/schema.prisma`
 - Models: User, Account, Session, PredictionEvent, Bet, Comment
 - Seed: `npm run db:seed` (idempotent)
-- Push schema: `npx prisma db push`
-- Generate client: `npx prisma generate`
+- Push schema: `npm run db:push`
+- Migrate: `npm run db:migrate`
+- Generate client: `npm run db:generate`
+- Studio: `npm run db:studio`
 
 ## Key Files
 | File | Purpose |

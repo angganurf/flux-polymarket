@@ -8,6 +8,7 @@ import { BarChart3, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LocaleSwitcher } from "@/components/shared/locale-switcher";
 import { UserMenu } from "@/components/shared/user-menu";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -57,6 +58,7 @@ export function Header() {
 
         {/* Desktop right side */}
         <div className="hidden items-center gap-3 md:flex">
+          <NotificationBell />
           <UserMenu />
           <LocaleSwitcher />
         </div>
@@ -93,7 +95,8 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <div className="px-3 pt-2">
+          <div className="flex items-center gap-3 px-3 pt-2">
+            <NotificationBell />
             <UserMenu />
             <LocaleSwitcher />
           </div>

@@ -6,6 +6,8 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import { AuthProvider } from "@/components/providers/session-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 
 export default async function LocaleLayout({
   children,
@@ -31,6 +33,8 @@ export default async function LocaleLayout({
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
+            <ServiceWorkerRegister />
+            <InstallPrompt />
           </QueryProvider>
         </AuthProvider>
       </ThemeProvider>
