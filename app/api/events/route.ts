@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const status = searchParams.get("status") || "active";
   const category = searchParams.get("category");
-  const limit = parseInt(searchParams.get("limit") || "20");
+  const limit = Math.min(Math.max(1, parseInt(searchParams.get("limit") || "20") || 20), 100);
   const offset = parseInt(searchParams.get("offset") || "0");
 
   try {
@@ -79,10 +79,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Sanitize inputs: strip HTML tags, enforce max length
+    const sanitizedTitle = String(title).replace(/<[^>]*>/g, "").trim().slice(0, 200);
+    const sanitizedDescription = description
+      ? String(description).replace(/<[^>]*>/g, "").trim().slice(0, 2000)
+      : null;
+
+    if (!sanitizedTitle) {
+      return NextResponse.json(
+        { error: "Title cannot be empty after sanitization" },
+        { status: 400 }
+      );
+    }
+
     const event = await prisma.predictionEvent.create({
       data: {
-        title,
-        description: description || null,
+        title: sanitizedTitle,
+        description: sanitizedDescription,
         category: category || "general",
         endDate: new Date(endDate),
         creatorId: session.user.id,

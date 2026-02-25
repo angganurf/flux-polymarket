@@ -74,7 +74,7 @@ export async function POST(
 
     const comment = await prisma.comment.create({
       data: {
-        content: trimmed,
+        content: trimmed.replace(/<[^>]*>/g, ""),
         userId: session.user.id,
         eventId: id,
       },

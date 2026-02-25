@@ -9,9 +9,10 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { eventId, choice, amount } = await request.json();
+    const body = await request.json();
+    const { eventId, choice, amount } = body;
 
-    if (!eventId || !choice || !amount) {
+    if (!eventId || !choice || amount == null) {
       return NextResponse.json(
         { error: "eventId, choice, and amount are required" },
         { status: 400 }
@@ -19,11 +20,23 @@ export async function POST(request: NextRequest) {
     }
 
     if (choice !== "yes" && choice !== "no") {
-      return NextResponse.json({ error: "Choice must be 'yes' or 'no'" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Choice must be 'yes' or 'no'" },
+        { status: 400 }
+      );
     }
 
-    if (amount < 10) {
-      return NextResponse.json({ error: "Minimum bet is 10 points" }, { status: 400 });
+    // Validate amount: must be a positive integer within bounds
+    if (
+      typeof amount !== "number" ||
+      !Number.isInteger(amount) ||
+      amount < 10 ||
+      amount > 100000
+    ) {
+      return NextResponse.json(
+        { error: "Amount must be an integer between 10 and 100,000" },
+        { status: 400 }
+      );
     }
 
     // Check event is active
@@ -32,30 +45,31 @@ export async function POST(request: NextRequest) {
     });
 
     if (!event || event.status !== "active") {
-      return NextResponse.json({ error: "Event is not active" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Event is not active" },
+        { status: 400 }
+      );
     }
 
     if (new Date() > event.endDate) {
-      return NextResponse.json({ error: "Event has ended" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Event has ended" },
+        { status: 400 }
+      );
     }
 
-    // Check user has enough points
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-    });
-
-    if (!user || user.points < amount) {
-      return NextResponse.json({ error: "Not enough points" }, { status: 400 });
-    }
-
-    // Create bet and deduct points in transaction
+    // Create bet and deduct points in transaction with optimistic locking
     const userId = session.user.id;
     const bet = await prisma.$transaction(async (tx) => {
-      // Deduct points
-      await tx.user.update({
-        where: { id: userId },
+      // Atomic balance check + deduction: only deducts if points >= amount
+      const updated = await tx.user.updateMany({
+        where: { id: userId, points: { gte: amount } },
         data: { points: { decrement: amount } },
       });
+
+      if (updated.count === 0) {
+        throw new Error("INSUFFICIENT_POINTS");
+      }
 
       // Create bet
       return tx.bet.create({
@@ -69,7 +83,16 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(bet, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "Failed to place bet" }, { status: 500 });
+  } catch (error) {
+    if (error instanceof Error && error.message === "INSUFFICIENT_POINTS") {
+      return NextResponse.json(
+        { error: "Not enough points" },
+        { status: 400 }
+      );
+    }
+    return NextResponse.json(
+      { error: "Failed to place bet" },
+      { status: 500 }
+    );
   }
 }

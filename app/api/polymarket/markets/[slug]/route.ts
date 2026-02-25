@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GAMMA_API_URL } from "@/lib/utils/constants";
+import { isValidSlug } from "@/lib/api/proxy-params";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
+  if (!isValidSlug(slug)) {
+    return NextResponse.json({ error: "Invalid slug format" }, { status: 400 });
+  }
   try {
-    const res = await fetch(`${GAMMA_API_URL}/markets/slug/${slug}`, {
+    const res = await fetch(`${GAMMA_API_URL}/markets/slug/${encodeURIComponent(slug)}`, {
       headers: { Accept: "application/json" },
       next: { revalidate: 30 },
     });

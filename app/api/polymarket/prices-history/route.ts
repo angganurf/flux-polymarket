@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CLOB_API_URL } from "@/lib/utils/constants";
+import { filterProxyParams } from "@/lib/api/proxy-params";
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams.toString();
+  const filtered = filterProxyParams(request.nextUrl.searchParams, "prices-history");
   try {
-    const res = await fetch(`${CLOB_API_URL}/prices-history?${searchParams}`, {
+    const res = await fetch(`${CLOB_API_URL}/prices-history?${filtered}`, {
       headers: { "Accept": "application/json" },
     });
     if (!res.ok) {

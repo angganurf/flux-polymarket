@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CLOB_API_URL } from "@/lib/utils/constants";
+import { isValidTokenId } from "@/lib/api/proxy-params";
 
 export async function GET(request: NextRequest) {
   const tokenId = request.nextUrl.searchParams.get("token_id");
   if (!tokenId) {
     return NextResponse.json({ error: "token_id required" }, { status: 400 });
   }
+  if (!isValidTokenId(tokenId)) {
+    return NextResponse.json({ error: "Invalid token_id format" }, { status: 400 });
+  }
   try {
-    const res = await fetch(`${CLOB_API_URL}/book?token_id=${tokenId}`, {
+    const res = await fetch(`${CLOB_API_URL}/book?token_id=${encodeURIComponent(tokenId)}`, {
       headers: { Accept: "application/json" },
     });
     if (!res.ok) {

@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DATA_API_URL } from "@/lib/utils/constants";
+import { filterProxyParams } from "@/lib/api/proxy-params";
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams.toString();
+  const filtered = filterProxyParams(request.nextUrl.searchParams, "leaderboard");
   try {
-    const res = await fetch(`${DATA_API_URL}/v1/leaderboard?${searchParams}`, {
+    const res = await fetch(`${DATA_API_URL}/v1/leaderboard?${filtered}`, {
       headers: { "Accept": "application/json" },
       next: { revalidate: 60 },
     });
