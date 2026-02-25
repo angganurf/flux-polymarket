@@ -1,3 +1,5 @@
+import { prisma } from "@/lib/db";
+
 const TELEGRAM_API = "https://api.telegram.org/bot";
 
 function getToken() {
@@ -191,18 +193,36 @@ async function handlePredictionsCommand(chatId: string) {
   }
 }
 
-async function handleSubscribeCommand(chatId: string) {
-  await sendTelegramMessage(
-    chatId,
-    "You've been subscribed to market alerts! You'll receive updates on trending markets and prediction results."
-  );
+async function handleSubscribeCommand(chatId: string, platform: string = "telegram") {
+  try {
+    await prisma.botSubscriber.upsert({
+      where: { platform_chatId: { platform, chatId } },
+      create: { platform, chatId, active: true },
+      update: { active: true },
+    });
+    await sendTelegramMessage(chatId, "✅ You've been subscribed to market alerts! You'll receive updates on trending markets and prediction results.");
+  } catch {
+    await sendTelegramMessage(chatId, "❌ Failed to subscribe. Please try again later.");
+  }
 }
 
-async function handleUnsubscribeCommand(chatId: string) {
-  await sendTelegramMessage(
-    chatId,
-    "You've been unsubscribed from market alerts."
-  );
+async function handleUnsubscribeCommand(chatId: string, platform: string = "telegram") {
+  try {
+    await prisma.botSubscriber.upsert({
+      where: { platform_chatId: { platform, chatId } },
+      create: { platform, chatId, active: false },
+      update: { active: false },
+    });
+    await sendTelegramMessage(chatId, "✅ You've been unsubscribed from market alerts.");
+  } catch {
+    await sendTelegramMessage(chatId, "❌ Failed to unsubscribe. Please try again later.");
+  }
+}
+
+export async function getActiveSubscribers(platform: string) {
+  return prisma.botSubscriber.findMany({
+    where: { platform, active: true },
+  });
 }
 
 export interface TelegramUpdate {

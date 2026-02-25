@@ -274,6 +274,11 @@
     "saved": "Preferences saved",
     "timeAgo": "{time} ago"
   },
+  "errors": {
+    "notFound": "Page Not Found",
+    "notFoundDescription": "The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go Home"
+  },
   "admin": {
     "title": "Admin Dashboard",
     "dashboard": "Dashboard",

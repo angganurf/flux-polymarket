@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { logInfo, logError, createTimer } from "@/lib/logger";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const elapsed = createTimer();
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -136,6 +138,13 @@ export async function POST(
     // Don't await — notifications are non-critical
     Promise.allSettled(notificationPromises).catch(() => {});
 
+    logInfo("Event resolved", {
+      path: `/api/events/${id}/resolve`,
+      userId,
+      eventId: id,
+      result: settlement.result,
+      duration: elapsed(),
+    });
     return NextResponse.json({ success: true, result: settlement.result });
   } catch (error) {
     if (error instanceof Error) {
@@ -149,6 +158,7 @@ export async function POST(
         return NextResponse.json({ error: "Only creator or admin can resolve" }, { status: 403 });
       }
     }
+    logError("Event resolution failed", error, { path: `/api/events/${id}/resolve`, userId });
     return NextResponse.json({ error: "Failed to resolve event" }, { status: 500 });
   }
 }

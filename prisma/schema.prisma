@@ -144,3 +144,17 @@ model NotificationPreference {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+// === Bot Subscriber Models ===
+
+model BotSubscriber {
+  id        String   @id @default(cuid())
+  platform  String   // "telegram" | "discord"
+  chatId    String   // Telegram chat ID or Discord channel ID
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([platform, chatId])
+  @@index([platform, active])
+}

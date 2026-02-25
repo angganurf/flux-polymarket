@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { logInfo, logError, createTimer } from "@/lib/logger";
 
 export async function POST(request: NextRequest) {
+  const elapsed = createTimer();
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -82,6 +84,7 @@ export async function POST(request: NextRequest) {
       });
     });
 
+    logInfo("Bet placed", { path: "/api/bets", userId, eventId, amount, duration: elapsed() });
     return NextResponse.json(bet, { status: 201 });
   } catch (error) {
     if (error instanceof Error && error.message === "INSUFFICIENT_POINTS") {
@@ -90,6 +93,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    logError("Bet placement failed", error, { path: "/api/bets", userId: session.user.id });
     return NextResponse.json(
       { error: "Failed to place bet" },
       { status: 500 }

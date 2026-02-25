@@ -6,6 +6,7 @@ describe("validateEnv", () => {
 
   beforeEach(() => {
     process.env = { ...originalEnv };
+    process.env.DATABASE_URL = "postgresql://test:test@localhost/test";
     vi.spyOn(console, "warn").mockImplementation(() => {});
   });
 
@@ -35,9 +36,19 @@ describe("validateEnv", () => {
     );
   });
 
-  it("passes with a strong secret", () => {
+  it("passes with a strong secret and all env vars", () => {
     process.env.AUTH_SECRET = "xK9mP2vL8nQ4wR7jF5hY3bA6cD0eG1iU";
+    process.env.GOOGLE_CLIENT_ID = "test";
+    process.env.GOOGLE_CLIENT_SECRET = "test";
+    process.env.KAKAO_CLIENT_ID = "test";
+    process.env.KAKAO_CLIENT_SECRET = "test";
     validateEnv();
     expect(console.warn).not.toHaveBeenCalled();
+  });
+
+  it("throws when DATABASE_URL is not set", () => {
+    process.env.AUTH_SECRET = "xK9mP2vL8nQ4wR7jF5hY3bA6cD0eG1iU";
+    delete process.env.DATABASE_URL;
+    expect(() => validateEnv()).toThrow("DATABASE_URL is not set");
   });
 });

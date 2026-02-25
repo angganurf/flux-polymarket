@@ -8,6 +8,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default async function LocaleLayout({
   children,
@@ -36,6 +38,8 @@ export default async function LocaleLayout({
             <ServiceWorkerRegister />
             <InstallPrompt />
           </QueryProvider>
+          <Analytics />
+          <SpeedInsights />
         </AuthProvider>
       </ThemeProvider>
     </NextIntlClientProvider>

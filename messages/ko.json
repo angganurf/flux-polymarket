@@ -274,6 +274,11 @@
     "saved": "설정이 저장되었습니다",
     "timeAgo": "{time} 전"
   },
+  "errors": {
+    "notFound": "페이지를 찾을 수 없습니다",
+    "notFoundDescription": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",
+    "goHome": "홈으로 가기"
+  },
   "admin": {
     "title": "관리자 대시보드",
     "dashboard": "대시보드",

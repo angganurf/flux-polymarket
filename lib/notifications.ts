@@ -1,4 +1,9 @@
 import { prisma } from "@/lib/db";
+import {
+  sendEmail,
+  betResultEmailHtml,
+  commentReplyEmailHtml,
+} from "@/lib/email";
 
 export type NotificationType =
   | "bet_result"
@@ -41,7 +46,52 @@ export async function createNotification(input: CreateNotificationInput) {
     if (prefKey && !prefs[prefKey]) return null;
   }
 
-  return prisma.notification.create({ data: input });
+  const notification = await prisma.notification.create({ data: input });
+
+  // Send email notification if the user has it enabled
+  if (prefs?.emailEnabled) {
+    const user = await prisma.user.findUnique({
+      where: { id: input.userId },
+      select: { email: true, name: true },
+    });
+
+    if (user?.email) {
+      let emailHtml: string | null = null;
+
+      if (input.type === "bet_result" || input.type === "event_resolved") {
+        emailHtml = betResultEmailHtml({
+          userName: user.name || "",
+          eventTitle: input.title,
+          won: input.title.toLowerCase().includes("won"),
+          link: input.link || "/",
+        });
+      } else if (input.type === "comment_reply") {
+        emailHtml = commentReplyEmailHtml({
+          userName: user.name || "",
+          commenterName: "",
+          eventTitle: input.title,
+          comment: input.message,
+          link: input.link || "/",
+        });
+      }
+
+      if (emailHtml) {
+        const result = await sendEmail({
+          to: user.email,
+          subject: input.title,
+          html: emailHtml,
+        });
+        if (result) {
+          await prisma.notification.update({
+            where: { id: notification.id },
+            data: { emailSent: true },
+          });
+        }
+      }
+    }
+  }
+
+  return notification;
 }
 
 /**

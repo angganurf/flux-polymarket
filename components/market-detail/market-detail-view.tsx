@@ -1,18 +1,35 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useMarketDetail } from "@/lib/hooks/use-market-detail";
 import { useMarketWebSocket } from "@/lib/hooks/use-websocket";
 import { MarketHeader } from "@/components/market-detail/market-header";
-import { ProbabilityChart } from "@/components/market-detail/probability-chart";
-import { OrderBook } from "@/components/market-detail/order-book";
 import { MarketStats } from "@/components/market-detail/market-stats";
 import { ConnectionStatus } from "@/components/shared/connection-status";
 import { ShareButtons } from "@/components/shared/share-buttons";
-import { EmbedCodeGenerator } from "@/components/embed/embed-code-generator";
-import { AIAnalysis } from "@/components/market-detail/ai-analysis";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
+
+const ProbabilityChart = dynamic(
+  () => import("@/components/market-detail/probability-chart").then((m) => m.ProbabilityChart),
+  { ssr: false, loading: () => <div className="h-[400px] animate-pulse rounded-xl bg-surface-hover" /> }
+);
+
+const OrderBook = dynamic(
+  () => import("@/components/market-detail/order-book").then((m) => m.OrderBook),
+  { ssr: false, loading: () => <div className="h-[300px] animate-pulse rounded-xl bg-surface-hover" /> }
+);
+
+const AIAnalysis = dynamic(
+  () => import("@/components/market-detail/ai-analysis").then((m) => m.AIAnalysis),
+  { ssr: false, loading: () => <div className="h-[200px] animate-pulse rounded-xl bg-surface-hover" /> }
+);
+
+const EmbedCodeGenerator = dynamic(
+  () => import("@/components/embed/embed-code-generator").then((m) => m.EmbedCodeGenerator),
+  { ssr: false }
+);
 
 interface MarketDetailViewProps {
   slug: string;
