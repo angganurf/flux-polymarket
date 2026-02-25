@@ -52,6 +52,7 @@ export function ShareButtons({ url, title }: ShareButtonsProps) {
         onClick={handleTwitterShare}
         className="flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-primary/50 hover:text-foreground"
         title="Share on X (Twitter)"
+        aria-label="Share on X (Twitter)"
       >
         <svg
           className="h-3.5 w-3.5"
@@ -68,6 +69,7 @@ export function ShareButtons({ url, title }: ShareButtonsProps) {
         onClick={handleKakaoShare}
         className="flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-yellow-500/50 hover:text-foreground"
         title="Share on KakaoTalk"
+        aria-label="Share on KakaoTalk"
       >
         <svg
           className="h-3.5 w-3.5"
@@ -84,6 +86,7 @@ export function ShareButtons({ url, title }: ShareButtonsProps) {
         onClick={handleCopyLink}
         className="flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-primary/50 hover:text-foreground"
         title={t("copyLink")}
+        aria-label={copied ? t("copied") : t("copyLink")}
       >
         {copied ? (
           <>

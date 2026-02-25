@@ -77,6 +77,7 @@ export function UserMenu() {
       {/* Logout button */}
       <button
         onClick={() => signOut()}
+        aria-label={t("logout")}
         className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted transition-colors hover:text-foreground hover:border-border-light"
       >
         <LogOut className="h-3.5 w-3.5" />

@@ -1,28 +1,7 @@
 import { streamText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { auth } from "@/lib/auth";
-
-// Simple in-memory rate limiter (per user, 5 requests per minute)
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT_MAX = 5;
-const RATE_LIMIT_WINDOW_MS = 60 * 1000;
-
-function checkRateLimit(userId: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(userId);
-
-  if (!entry || now > entry.resetTime) {
-    rateLimitMap.set(userId, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
-    return true;
-  }
-
-  if (entry.count >= RATE_LIMIT_MAX) {
-    return false;
-  }
-
-  entry.count++;
-  return true;
-}
+import { checkRateLimit } from "@/lib/rate-limit";
 
 // Sanitize user input: strip control characters and limit length
 function sanitizeInput(input: unknown, maxLength: number): string {
@@ -43,8 +22,12 @@ export async function POST(req: Request) {
     );
   }
 
-  // Rate limiting
-  if (!checkRateLimit(session.user.id)) {
+  // Rate limiting: 5 requests per minute per user (fall back to IP if no user ID)
+  const rateLimitKey = session.user.id
+    ? `ai-analyze:user:${session.user.id}`
+    : `ai-analyze:ip:${req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"}`;
+  const { allowed } = checkRateLimit(rateLimitKey, { maxRequests: 5, windowMs: 60 * 1000 });
+  if (!allowed) {
     return new Response(
       JSON.stringify({ error: "Too many requests. Please try again later." }),
       { status: 429, headers: { "Content-Type": "application/json" } }

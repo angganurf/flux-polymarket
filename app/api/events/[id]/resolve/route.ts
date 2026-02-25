@@ -3,11 +3,18 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
 import { logInfo, logError, createTimer } from "@/lib/logger";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const { allowed } = checkRateLimit(`resolve:${ip}`, { maxRequests: 3, windowMs: 60 * 1000 });
+  if (!allowed) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   const elapsed = createTimer();
   const session = await auth();
   if (!session?.user?.id) {

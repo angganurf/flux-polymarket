@@ -84,20 +84,8 @@ export default function RegisterPage() {
           <p className="text-sm text-yes">{t("welcomeBonus")}</p>
         </div>
 
-        {/* OAuth Buttons */}
-        <OAuthButtons />
-
-        {/* Divider */}
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-border" />
-          </div>
-          <div className="relative flex justify-center text-xs">
-            <span className="bg-background px-3 text-muted">
-              {t("orSignUpWith")}
-            </span>
-          </div>
-        </div>
+        {/* OAuth Buttons + Divider */}
+        <OAuthButtons dividerKey="orSignUpWith" />
 
         {/* Credentials Form */}
         <form onSubmit={handleSubmit} className="space-y-4">

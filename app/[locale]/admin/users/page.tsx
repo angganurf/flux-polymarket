@@ -114,10 +114,10 @@ export default function AdminUsersPage() {
           <thead>
             <tr className="border-b border-border">
               <th className="px-4 py-3 text-xs font-medium text-muted">
-                Name
+                {t("name")}
               </th>
               <th className="px-4 py-3 text-xs font-medium text-muted">
-                Email
+                {t("email")}
               </th>
               <th className="px-4 py-3 text-xs font-medium text-muted">
                 {t("role")}
@@ -126,16 +126,16 @@ export default function AdminUsersPage() {
                 {t("points")}
               </th>
               <th className="px-4 py-3 text-xs font-medium text-muted text-right">
-                Bets
+                {t("bets")}
               </th>
               <th className="px-4 py-3 text-xs font-medium text-muted text-right">
                 {t("events")}
               </th>
               <th className="px-4 py-3 text-xs font-medium text-muted">
-                Joined
+                {t("joined")}
               </th>
               <th className="px-4 py-3 text-xs font-medium text-muted">
-                Actions
+                {t("actions")}
               </th>
             </tr>
           </thead>
@@ -163,7 +163,7 @@ export default function AdminUsersPage() {
                   className="border-b border-border transition-colors hover:bg-surface-hover"
                 >
                   <td className="px-4 py-3 font-medium text-foreground">
-                    {user.name || "Anonymous"}
+                    {user.name || t("anonymous")}
                   </td>
                   <td className="px-4 py-3 text-muted">
                     {user.email || "-"}
@@ -182,7 +182,7 @@ export default function AdminUsersPage() {
                       ) : (
                         <User className="h-3 w-3" />
                       )}
-                      {user.role}
+                      {user.role === "admin" ? t("admin") : t("user")}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right font-mono text-foreground">
@@ -224,7 +224,7 @@ export default function AdminUsersPage() {
       {totalPages > 1 && (
         <div className="mt-4 flex items-center justify-between">
           <p className="text-sm text-muted">
-            Page {currentPage} of {totalPages}
+            {t("page")} {currentPage} {t("of")} {totalPages}
           </p>
           <div className="flex items-center gap-2">
             <button

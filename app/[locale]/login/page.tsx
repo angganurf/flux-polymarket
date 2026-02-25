@@ -51,20 +51,8 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold text-foreground">{t("login")}</h1>
         </div>
 
-        {/* OAuth Buttons */}
-        <OAuthButtons />
-
-        {/* Divider */}
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-border" />
-          </div>
-          <div className="relative flex justify-center text-xs">
-            <span className="bg-background px-3 text-muted">
-              {t("orContinueWith")}
-            </span>
-          </div>
-        </div>
+        {/* OAuth Buttons + Divider */}
+        <OAuthButtons dividerKey="orContinueWith" />
 
         {/* Credentials Form */}
         <form onSubmit={handleSubmit} className="space-y-4">

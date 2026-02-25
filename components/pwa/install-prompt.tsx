@@ -42,7 +42,10 @@ export function InstallPrompt() {
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center gap-3 rounded-2xl border border-border bg-surface-2 p-4 shadow-lg">
+    <div
+      role="alert"
+      className="fixed bottom-4 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center gap-3 rounded-2xl border border-border bg-surface-2 p-4 shadow-lg"
+    >
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
         <Download className="h-5 w-5" />
       </div>
@@ -54,6 +57,7 @@ export function InstallPrompt() {
       </div>
       <button
         onClick={handleInstall}
+        aria-label={t("installButton")}
         className="shrink-0 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-primary-hover"
       >
         {t("installButton")}

@@ -37,6 +37,9 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   themeColor: "#6366f1",
+  icons: {
+    apple: "/icons/icon-192.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

@@ -15,7 +15,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "bot:telegram:setup": "npx tsx scripts/setup-telegram-webhook.ts",
-    "bot:discord:setup": "npx tsx scripts/setup-discord-commands.ts"
+    "bot:discord:setup": "npx tsx scripts/setup-discord-commands.ts",
+    "type-check": "tsc --noEmit",
+    "test:coverage": "vitest run --coverage",
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.33",

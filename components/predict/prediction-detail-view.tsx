@@ -174,9 +174,11 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="grid grid-cols-2 gap-3 mb-4" role="group" aria-label={t("yourBet")}>
             <button
               onClick={() => setBetChoice("yes")}
+              aria-pressed={betChoice === "yes"}
+              aria-label={`${t("confirm")} YES`}
               className={cn(
                 "rounded-xl py-3 text-sm font-semibold transition-all border-2",
                 betChoice === "yes"
@@ -188,6 +190,8 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
             </button>
             <button
               onClick={() => setBetChoice("no")}
+              aria-pressed={betChoice === "no"}
+              aria-label={`${t("confirm")} NO`}
               className={cn(
                 "rounded-xl py-3 text-sm font-semibold transition-all border-2",
                 betChoice === "no"
@@ -202,13 +206,15 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
           {betChoice && (
             <div className="space-y-3">
               <div>
-                <label className="text-xs text-muted">{t("amount")}</label>
+                <label htmlFor="bet-amount" className="text-xs text-muted">{t("amount")}</label>
                 <input
+                  id="bet-amount"
                   type="number"
                   min="10"
                   step="10"
                   value={betAmount}
                   onChange={(e) => setBetAmount(e.target.value)}
+                  aria-label={t("amount")}
                   className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary"
                 />
                 <p className="mt-1 text-xs text-muted">{t("minBet")}</p>

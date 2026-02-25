@@ -134,6 +134,7 @@ export function EmbedCodeGenerator({ slug }: EmbedCodeGeneratorProps) {
             {/* Copy button */}
             <button
               onClick={handleCopy}
+              aria-label={copied ? t("embedCopied") : t("embedCopy")}
               className={cn(
                 "absolute right-2 top-2 rounded-md px-2.5 py-1 text-xs font-medium transition-all",
                 copied
@@ -141,7 +142,9 @@ export function EmbedCodeGenerator({ slug }: EmbedCodeGeneratorProps) {
                   : "bg-primary/10 text-primary hover:bg-primary/20"
               )}
             >
-              {copied ? t("embedCopied") : t("embedCopy")}
+              <span aria-live="assertive" aria-atomic="true">
+                {copied ? t("embedCopied") : t("embedCopy")}
+              </span>
             </button>
           </div>
 

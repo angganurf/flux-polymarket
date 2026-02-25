@@ -55,6 +55,7 @@ function NotificationItem({
   return (
     <button
       onClick={() => onRead(notification.id, notification.link)}
+      role="menuitem"
       className={cn(
         "flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-surface-hover",
         !notification.read && "bg-primary/5"
@@ -147,11 +148,17 @@ export function NotificationBell() {
       <button
         onClick={() => setOpen(!open)}
         className="relative flex items-center justify-center rounded-lg p-2 text-muted transition-colors hover:text-foreground"
-        aria-label={t("title")}
+        aria-label={unreadCount > 0 ? `${t("title")}, ${unreadCount} ${t("unread")}` : t("title")}
+        aria-expanded={open}
+        aria-haspopup="menu"
       >
         <Bell className="h-4.5 w-4.5" />
         {unreadCount > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-no px-1 text-[10px] font-bold text-white">
+          <span
+            className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-no px-1 text-[10px] font-bold text-white"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         )}
@@ -159,7 +166,11 @@ export function NotificationBell() {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-border bg-surface shadow-2xl">
+        <div
+          role="menu"
+          aria-label={t("title")}
+          className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-border bg-surface shadow-2xl"
+        >
           {/* Header */}
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <h3 className="text-sm font-semibold text-foreground">

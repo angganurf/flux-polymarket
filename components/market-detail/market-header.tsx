@@ -20,7 +20,7 @@ export function MarketHeader({ market }: MarketHeaderProps) {
     <div>
       <h1 className="text-2xl font-bold text-foreground">{market.question}</h1>
 
-      <div className="mt-4 flex items-center gap-6">
+      <div className="mt-4 flex items-center gap-6" aria-live="polite" aria-atomic="true" aria-label="Live market prices">
         <div className="flex items-baseline gap-2">
           <span className="text-4xl font-bold text-yes">{yesPercent}%</span>
           <span className="text-lg text-muted">{t("yes")}</span>
