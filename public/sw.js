@@ -1,4 +1,5 @@
-const CACHE_NAME = "predictflow-v1";
+// IMPORTANT: Bump version on each deploy to invalidate old caches
+const CACHE_NAME = "predictflow-v9";
 const OFFLINE_URL = "/offline";
 
 // Precache critical assets

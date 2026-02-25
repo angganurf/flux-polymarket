@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { logError } from "@/lib/logger";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -76,7 +77,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ users: paged, total });
   } catch (error) {
-    console.error("Local leaderboard error:", error);
+    logError("Local leaderboard error", error, { path: "/api/leaderboard/local" });
     return NextResponse.json(
       { error: "Failed to fetch local leaderboard" },
       { status: 500 }

@@ -56,17 +56,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-      }
-      // Fetch role from DB for OAuth users
-      if (account && token.id) {
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.id as string },
-          select: { role: true },
-        });
-        if (dbUser) token.role = dbUser.role;
+        // Fetch role from DB on first sign-in (credentials + OAuth)
+        if (user.id) {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: user.id as string },
+            select: { role: true },
+          });
+          if (dbUser) token.role = dbUser.role;
+        }
       }
       return token;
     },

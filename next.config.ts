@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://polymarket-upload.s3.us-east-2.amazonaws.com https://*.polymarket.com",
               "font-src 'self'",
-              "connect-src 'self' https://gamma-api.polymarket.com https://clob.polymarket.com https://data-api.polymarket.com wss://ws-subscriptions-clob.polymarket.com",
+              "connect-src 'self' https://gamma-api.polymarket.com https://clob.polymarket.com https://data-api.polymarket.com wss://ws-subscriptions-clob.polymarket.com https://vitals.vercel-insights.com https://*.vercel-analytics.com",
               "frame-ancestors 'none'",
             ].join("; "),
           },
