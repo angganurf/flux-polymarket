@@ -9,7 +9,7 @@ import { MarketStats } from "@/components/market-detail/market-stats";
 import { ConnectionStatus } from "@/components/shared/connection-status";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { Link } from "@/i18n/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 
 const ProbabilityChart = dynamic(
   () => import("@/components/market-detail/probability-chart").then((m) => m.ProbabilityChart),
@@ -89,6 +89,19 @@ export function MarketDetailView({ slug }: MarketDetailViewProps) {
       {/* Share buttons */}
       <div className="mb-4">
         <ShareButtons url={shareUrl} title={market.question} />
+      </div>
+
+      {/* Trade on Polymarket CTA */}
+      <div className="mb-6">
+        <a
+          href={`https://polymarket.com/event/${market.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+        >
+          <ExternalLink className="h-4 w-4" />
+          {t("tradeOnPolymarket")}
+        </a>
       </div>
 
       {/* Market header */}

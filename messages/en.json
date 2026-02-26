@@ -93,6 +93,7 @@
     "embedCopy": "Copy",
     "embedCopied": "Copied!",
     "embedPreview": "Preview embed",
+    "tradeOnPolymarket": "Trade on Polymarket",
     "aiAnalysis": {
       "title": "AI Analysis",
       "generate": "Generate Analysis",
@@ -147,7 +148,10 @@
     "no": "No",
     "notFoundTitle": "Page Not Found",
     "notFoundDescription": "The page you're looking for doesn't exist.",
-    "notFoundGoHome": "Go Home"
+    "notFoundGoHome": "Go Home",
+    "toggleTheme": "Toggle theme",
+    "darkMode": "Switch to dark mode",
+    "lightMode": "Switch to light mode"
   },
   "auth": {
     "login": "Log In",
@@ -167,6 +171,17 @@
     "continueWithKakao": "Continue with Kakao",
     "orContinueWith": "or continue with email",
     "orSignUpWith": "or sign up with email",
+    "forgotPassword": "Forgot Password?",
+    "forgotPasswordTitle": "Reset Password",
+    "forgotPasswordDescription": "Enter your email and we'll send you a reset link.",
+    "sendResetLink": "Send Reset Link",
+    "resetLinkSent": "If an account exists with that email, we've sent a password reset link.",
+    "resetPasswordTitle": "Set New Password",
+    "resetPassword": "Reset Password",
+    "newPassword": "New Password",
+    "invalidToken": "Invalid or expired reset link.",
+    "passwordResetSuccess": "Password reset successfully! You can now log in.",
+    "backToLogin": "Back to Login",
     "errors": {
       "invalidCredentials": "Invalid email or password",
       "passwordMismatch": "Passwords don't match",
@@ -294,6 +309,24 @@
     "somethingWentWrong": "Something went wrong",
     "unexpectedError": "An unexpected error occurred",
     "tryAgain": "Try again"
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "displayName": "Display Name",
+    "email": "Email",
+    "points": "Points",
+    "memberSince": "Member Since",
+    "save": "Save",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "passwordChanged": "Password changed successfully",
+    "nameUpdated": "Name updated successfully",
+    "wrongPassword": "Current password is incorrect",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "loginRequired": "Log in to view your profile"
   },
   "admin": {
     "title": "Admin Dashboard",

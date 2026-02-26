@@ -3,13 +3,14 @@
 import { useSession, signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { LogIn, LogOut, Coins, Shield } from "lucide-react";
+import { LogIn, LogOut, Coins, Shield, UserCog } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
 export function UserMenu() {
   const { data: session, status } = useSession();
   const t = useTranslations("auth");
   const tAdmin = useTranslations("admin");
+  const tProfile = useTranslations("profile");
 
   const { data: userInfo } = useQuery({
     queryKey: ["user-me"],
@@ -52,6 +53,15 @@ export function UserMenu() {
 
       {/* User name */}
       <span className="text-xs text-muted">{session.user.name || session.user.email}</span>
+
+      {/* Profile link */}
+      <Link
+        href="/profile"
+        className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted transition-colors hover:text-foreground hover:border-border-light"
+        aria-label={tProfile("title")}
+      >
+        <UserCog className="h-3.5 w-3.5" />
+      </Link>
 
       {/* Admin link */}
       {role === "admin" && (

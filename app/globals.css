@@ -1,6 +1,22 @@
 @import "tailwindcss";
 
+/* Light theme (default root values) */
 :root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --surface: #f9fafb;
+  --surface-hover: #f3f4f6;
+  --border: #e5e7eb;
+  --border-light: #d1d5db;
+  --muted: #6b7280;
+  --accent-yes: #16a34a;
+  --accent-no: #dc2626;
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #4f46e5;
+}
+
+/* Dark theme (activated by next-themes class) */
+.dark {
   --background: #0b0e11;
   --foreground: #e5e7eb;
   --surface: #141820;

@@ -7,6 +7,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { BarChart3, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LocaleSwitcher } from "@/components/shared/locale-switcher";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { UserMenu } from "@/components/shared/user-menu";
 import { NotificationBell } from "@/components/notifications/notification-bell";
 
@@ -60,6 +61,7 @@ export function Header() {
         <div className="hidden items-center gap-3 md:flex">
           <NotificationBell />
           <UserMenu />
+          <ThemeToggle />
           <LocaleSwitcher />
         </div>
 
@@ -98,6 +100,7 @@ export function Header() {
           <div className="flex items-center gap-3 px-3 pt-2">
             <NotificationBell />
             <UserMenu />
+            <ThemeToggle />
             <LocaleSwitcher />
           </div>
         </div>

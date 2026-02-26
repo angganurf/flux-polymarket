@@ -94,6 +94,24 @@ export function commentReplyEmailHtml(params: {
   `;
 }
 
+export function passwordResetEmailHtml(params: {
+  userName: string;
+  resetLink: string;
+}) {
+  const { userName, resetLink } = params;
+  return `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h2 style="color: #6366f1;">PredictFlow</h2>
+      <p>Hi ${escapeHtml(userName || "there")},</p>
+      <p>We received a request to reset your password. Click the button below to set a new password:</p>
+      <a href="${escapeHtml(resetLink)}" style="display: inline-block; padding: 12px 24px; background: #6366f1; color: white; text-decoration: none; border-radius: 8px; margin-top: 16px;">Reset Password</a>
+      <p style="margin-top: 24px; color: #555;">This link will expire in 1 hour. If you didn't request a password reset, you can safely ignore this email.</p>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
+      <p style="color: #888; font-size: 12px;">You received this because a password reset was requested for your PredictFlow account.</p>
+    </div>
+  `;
+}
+
 function escapeHtml(text: string): string {
   return text
     .replace(/&/g, "&amp;")
