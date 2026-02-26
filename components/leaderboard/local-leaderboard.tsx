@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Trophy } from "lucide-react";
 
@@ -110,9 +111,11 @@ export function LocalLeaderboard() {
             {/* User */}
             <div className="col-span-4 flex items-center gap-3 min-w-0">
               {user.image ? (
-                <img
+                <Image
                   src={user.image}
                   alt=""
+                  width={32}
+                  height={32}
                   className="h-8 w-8 rounded-full bg-border"
                 />
               ) : (

@@ -11,7 +11,7 @@ import { usePortfolio } from "@/lib/hooks/use-portfolio";
 export default function PortfolioPage() {
   const t = useTranslations("portfolio");
   const tAuth = useTranslations("auth");
-  const { data: session, status: sessionStatus } = useSession();
+  const { status: sessionStatus } = useSession();
   const { data, isLoading } = usePortfolio();
   const bets = data?.bets ?? [];
   const stats = data?.stats ?? null;

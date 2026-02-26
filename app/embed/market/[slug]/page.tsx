@@ -198,6 +198,7 @@ export default function EmbedMarketPage({
     Object.entries(vars).forEach(([key, value]) => {
       document.documentElement.style.setProperty(key, value);
     });
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration gate for theme CSS vars
     setMounted(true);
   }, [theme]);
 

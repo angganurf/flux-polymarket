@@ -71,7 +71,7 @@ export function NotificationPreferences() {
   const updatePrefs = useUpdatePreferences();
   const [saved, setSaved] = useState(false);
 
-  // Local state that syncs with server
+  // Local state synced from server prefs on load
   const [local, setLocal] = useState({
     inAppEnabled: true,
     emailEnabled: false,
@@ -81,8 +81,10 @@ export function NotificationPreferences() {
     systemAlerts: true,
   });
 
+  // Sync server → local state on initial fetch (safe one-time sync)
   useEffect(() => {
     if (prefs) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional sync from server data
       setLocal({
         inAppEnabled: prefs.inAppEnabled,
         emailEnabled: prefs.emailEnabled,

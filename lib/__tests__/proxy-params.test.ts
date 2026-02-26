@@ -19,6 +19,7 @@ describe("filterProxyParams", () => {
 
   it("returns empty string for unknown endpoint", () => {
     const params = new URLSearchParams("limit=10");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- testing invalid input
     const result = filterProxyParams(params, "unknown" as any);
     expect(result).toBe("");
   });

@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { formatVolume, formatUSD } from "@/lib/utils/format";
 import type { LeaderboardEntry } from "@/lib/api/types";
@@ -68,9 +69,11 @@ export function LeaderboardTable({ entries, isLoading }: LeaderboardTableProps) 
             {/* Trader */}
             <div className="col-span-5 flex items-center gap-3 min-w-0">
               {entry.profileImage ? (
-                <img
+                <Image
                   src={entry.profileImage}
                   alt=""
+                  width={32}
+                  height={32}
                   className="h-8 w-8 rounded-full bg-border"
                 />
               ) : (

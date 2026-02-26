@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
 import { formatVolume } from "@/lib/utils/format";
 import type { ParsedMarket } from "@/lib/api/types";
 import { PriceChange } from "@/components/shared/price-change";
@@ -16,7 +15,6 @@ export function MarketCard({ market }: MarketCardProps) {
   const t = useTranslations("market");
   const livePrice = useMarketStore((s) => s.prices[market.clobTokenIds[0]]);
   const yesPrice = livePrice ?? market.yesPrice;
-  const noPrice = livePrice != null ? 1 - livePrice : market.noPrice;
   const yesPercent = Math.round(yesPrice * 100);
 
   return (
