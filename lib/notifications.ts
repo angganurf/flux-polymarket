@@ -63,10 +63,17 @@ export async function createNotification(input: CreateNotificationInput) {
       let emailHtml: string | null = null;
 
       if (input.type === "bet_result" || input.type === "bet_won" || input.type === "bet_lost" || input.type === "event_resolved") {
+        let parsedEventTitle = input.title;
+        try {
+          const parsed = JSON.parse(input.message);
+          if (parsed.eventTitle) parsedEventTitle = parsed.eventTitle;
+        } catch {
+          // message is not JSON, use title as-is
+        }
         emailHtml = betResultEmailHtml({
           userName: user.name || "",
-          eventTitle: input.title,
-          won: input.title.toLowerCase().includes("won"),
+          eventTitle: parsedEventTitle,
+          won: input.type === "bet_won",
           link: input.link || "/",
         });
       } else if (input.type === "comment_reply") {

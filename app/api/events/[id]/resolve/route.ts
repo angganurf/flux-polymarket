@@ -106,12 +106,19 @@ export async function POST(
         winnerPayouts.push({ userId: bet.userId, payout });
       }
 
+      // Build a map of loser userId -> total amount lost
+      const loserAmounts = new Map<string, number>();
+      for (const bet of losingBets) {
+        loserAmounts.set(bet.userId, (loserAmounts.get(bet.userId) || 0) + bet.amount);
+      }
+
       return {
         result,
         eventTitle: event.title,
         eventId: event.id,
         winnerPayouts,
         loserUserIds: losingBets.map((b) => b.userId),
+        loserAmounts,
       };
     });
 
@@ -146,7 +153,7 @@ export async function POST(
           userId: loserId,
           type: "bet_lost",
           title: "bet_lost",
-          message: JSON.stringify({ amount: settlement.result, eventTitle: settlement.eventTitle }),
+          message: JSON.stringify({ amount: settlement.loserAmounts.get(loserId) ?? 0, eventTitle: settlement.eventTitle }),
           link: `/predict/${settlement.eventId}`,
         })
       );

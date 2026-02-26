@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { logWarn, logError } from "@/lib/logger";
 
 let _resend: Resend | null = null;
 function getResend() {
@@ -19,7 +20,7 @@ interface SendEmailInput {
 
 export async function sendEmail({ to, subject, html }: SendEmailInput) {
   if (!process.env.RESEND_API_KEY) {
-    console.warn("RESEND_API_KEY not set, skipping email");
+    logWarn("RESEND_API_KEY not set, skipping email", {});
     return null;
   }
 
@@ -31,12 +32,12 @@ export async function sendEmail({ to, subject, html }: SendEmailInput) {
       html,
     });
     if (error) {
-      console.error("Email send error:", error);
+      logError("Email send error", error, { to, subject });
       return null;
     }
     return data;
   } catch (err) {
-    console.error("Email send failed:", err);
+    logError("Email send failed", err, { to, subject });
     return null;
   }
 }

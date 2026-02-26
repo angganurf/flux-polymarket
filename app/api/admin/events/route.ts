@@ -82,11 +82,14 @@ export async function PATCH(request: NextRequest) {
 
       // Resolve the event and pay out winners in a transaction
       await prisma.$transaction(async (tx) => {
-        // Update event status
-        await tx.predictionEvent.update({
-          where: { id: eventId },
+        // Update event status atomically — only if still active
+        const updated = await tx.predictionEvent.updateMany({
+          where: { id: eventId, status: "active" },
           data: { status: "resolved", result },
         });
+        if (updated.count === 0) {
+          throw new Error("ALREADY_RESOLVED");
+        }
 
         // Get all bets for this event
         const bets = await tx.bet.findMany({
@@ -134,10 +137,14 @@ export async function PATCH(request: NextRequest) {
     if (action === "cancel") {
       // Cancel the event and refund all bets
       await prisma.$transaction(async (tx) => {
-        await tx.predictionEvent.update({
-          where: { id: eventId },
+        // Update event status atomically — only if still active
+        const updated = await tx.predictionEvent.updateMany({
+          where: { id: eventId, status: "active" },
           data: { status: "cancelled" },
         });
+        if (updated.count === 0) {
+          throw new Error("ALREADY_RESOLVED");
+        }
 
         // Refund all bets
         const bets = await tx.bet.findMany({ where: { eventId } });
@@ -159,7 +166,13 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
-  } catch {
+  } catch (err) {
+    if (err instanceof Error && err.message === "ALREADY_RESOLVED") {
+      return NextResponse.json(
+        { error: "Event has already been resolved or cancelled" },
+        { status: 409 }
+      );
+    }
     return NextResponse.json({ error: "Failed to update event" }, { status: 500 });
   }
 }
