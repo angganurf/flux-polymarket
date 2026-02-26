@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { email } = body;
+    const { email, locale = "en" } = body;
 
     if (!email || typeof email !== "string") {
       return NextResponse.json(
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
 
     // Send email with reset link
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3100";
-    const resetLink = `${baseUrl}/en/reset-password?token=${token}`;
+    const resetLink = `${baseUrl}/${locale}/reset-password?token=${token}`;
 
     await sendEmail({
       to: normalizedEmail,

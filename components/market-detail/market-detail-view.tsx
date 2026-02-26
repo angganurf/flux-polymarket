@@ -94,7 +94,7 @@ export function MarketDetailView({ slug }: MarketDetailViewProps) {
       {/* Trade on Polymarket CTA */}
       <div className="mb-6">
         <a
-          href={`https://polymarket.com/event/${market.slug}`}
+          href={`https://polymarket.com/market/${market.slug}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"

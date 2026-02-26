@@ -15,6 +15,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/portfolio",
     "/login",
     "/register",
+    "/forgot-password",
+    "/reset-password",
   ];
 
   const staticEntries = locales.flatMap((locale) =>

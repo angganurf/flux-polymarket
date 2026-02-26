@@ -73,6 +73,10 @@ URL routing logic is in `lib/api/fetch-helper.ts` (gammaUrl, clobUrl, dataUrl).
 - `/api/bot/telegram` -- Telegram webhook handler
 - `/api/bot/discord` -- Discord interactions handler
 - `/api/markets` -- Local markets API
+- `/api/user/me` -- User profile (GET detail, PATCH update name)
+- `/api/user/password` -- Change password (PATCH)
+- `/api/auth/forgot-password` -- Request password reset email
+- `/api/auth/reset-password` -- Reset password with token
 
 ### Caching
 In-memory LRU cache (`lib/cache.ts`) with TTL presets:
@@ -146,7 +150,7 @@ Configured in `next.config.ts`:
 - **CSP**: Full Content-Security-Policy with Polymarket domain allowlist
 - **Dynamic Imports**: Loading skeletons for all route segments
 - **Environment Validation**: `lib/validate-env.ts` validates AUTH_SECRET and DATABASE_URL at startup, warns on weak secrets and missing OAuth config
-- **139 Tests**: Comprehensive test coverage across 11 test files
+- **258 Tests**: Comprehensive test coverage across 16 test files
 
 ### Sprint 7: Polish
 - **Rate Limiting**: In-memory rate limiter applied to all API routes
@@ -155,6 +159,12 @@ Configured in `next.config.ts`:
 - **Error Boundaries**: Per-route error.tsx components for markets, predict, portfolio, admin, notifications
 - **Accessibility**: Semantic HTML, ARIA labels, keyboard navigation
 - **Not Found Pages**: Custom 404 pages with locale support
+
+### Sprint 13: User Features
+- **User Profile Page**: `/profile` -- name editing, password change, account info
+- **Dark/Light Theme Toggle**: next-themes with CSS variables, Sun/Moon button in header
+- **Forgot Password Flow**: email token -> reset page, PasswordResetToken model
+- **Trade on Polymarket CTA**: external link button on market detail page
 
 ## Database
 - **Engine**: PostgreSQL 17 via Docker
@@ -172,6 +182,7 @@ Configured in `next.config.ts`:
   - `Notification` -- userId, type, title, message, link, read, emailSent
   - `NotificationPreference` -- per-user toggles for inApp, email, betResults, eventResolved, commentReplies, systemAlerts
   - `BotSubscriber` -- platform ("telegram"|"discord"), chatId, active
+  - `PasswordResetToken` -- email, token (unique), expiresAt, createdAt
 
 ### Database Scripts
 | Command | Action |
@@ -216,6 +227,7 @@ Configured in `next.config.ts`:
 | `public/manifest.json` | PWA web manifest |
 | `components/market-detail/market-detail-view.tsx` | Market detail client component |
 | `components/predict/prediction-detail-view.tsx` | Prediction detail client component |
+| `components/shared/theme-toggle.tsx` | Dark/light theme toggle component |
 
 ## Environment Variables
 | Variable | Required | Description |
@@ -266,7 +278,7 @@ Configured in `next.config.ts`:
 ## Testing
 - **Framework**: Vitest v4 with Node environment
 - **Config**: `vitest.config.ts` with `@/` path alias
-- **Test files**: 11 files in `lib/__tests__/`:
+- **Test files**: 16 files in `lib/__tests__/`:
   - `admin.test.ts` -- Admin role verification
   - `bot-discord.test.ts` -- Discord bot command handling
   - `bot-telegram.test.ts` -- Telegram bot command handling
@@ -278,7 +290,7 @@ Configured in `next.config.ts`:
   - `proxy-params.test.ts` -- API proxy parameter handling
   - `rate-limit.test.ts` -- Rate limiter behavior
   - `validate-env.test.ts` -- Environment validation
-- **Total**: 139 tests
+- **Total**: 258 tests
 - **CI**: Tests run in GitHub Actions with a PostgreSQL 17 service container
 
 ## Known Issues / Remaining Work

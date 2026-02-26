@@ -9,8 +9,8 @@ const intlMiddleware = createMiddleware(routing);
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Check if accessing admin routes (any locale prefix + /admin)
-  const isAdminRoute = /^\/[a-z]{2}\/admin/.test(pathname);
+  // Check if accessing protected routes (any locale prefix + /admin or /profile)
+  const isAdminRoute = /^\/[a-z]{2}\/(admin|profile)/.test(pathname);
 
   if (isAdminRoute) {
     const token = await getToken({
