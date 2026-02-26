@@ -281,7 +281,11 @@
     "commentReplies": "Comment replies",
     "systemAlerts": "System alerts",
     "saved": "Preferences saved",
-    "timeAgo": "{time} ago"
+    "timeAgo": "{time} ago",
+    "betWonTitle": "You won!",
+    "betWonMessage": "You earned {payout} points from \"{eventTitle}\"",
+    "betLostTitle": "Better luck next time",
+    "betLostMessage": "Your prediction on \"{eventTitle}\" did not win this time"
   },
   "errors": {
     "notFound": "Page Not Found",

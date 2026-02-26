@@ -130,9 +130,9 @@ export async function POST(
       notificationPromises.push(
         createNotification({
           userId: winnerId,
-          type: "bet_result",
-          title: "You won!",
-          message: `You earned ${payout} points from "${settlement.eventTitle}"`,
+          type: "bet_won",
+          title: "bet_won",
+          message: JSON.stringify({ payout, eventTitle: settlement.eventTitle }),
           link: `/predict/${settlement.eventId}`,
         })
       );
@@ -144,9 +144,9 @@ export async function POST(
       notificationPromises.push(
         createNotification({
           userId: loserId,
-          type: "bet_result",
-          title: "Better luck next time",
-          message: `The prediction "${settlement.eventTitle}" was resolved as ${settlement.result.toUpperCase()}`,
+          type: "bet_lost",
+          title: "bet_lost",
+          message: JSON.stringify({ amount: settlement.result, eventTitle: settlement.eventTitle }),
           link: `/predict/${settlement.eventId}`,
         })
       );

@@ -7,6 +7,8 @@ import {
 
 export type NotificationType =
   | "bet_result"
+  | "bet_won"
+  | "bet_lost"
   | "event_resolved"
   | "comment_reply"
   | "points_earned"
@@ -36,6 +38,8 @@ export async function createNotification(input: CreateNotificationInput) {
 
     const typeMap: Record<NotificationType, keyof typeof prefs> = {
       bet_result: "betResults",
+      bet_won: "betResults",
+      bet_lost: "betResults",
       event_resolved: "eventResolved",
       comment_reply: "commentReplies",
       points_earned: "betResults",
@@ -58,7 +62,7 @@ export async function createNotification(input: CreateNotificationInput) {
     if (user?.email) {
       let emailHtml: string | null = null;
 
-      if (input.type === "bet_result" || input.type === "event_resolved") {
+      if (input.type === "bet_result" || input.type === "bet_won" || input.type === "bet_lost" || input.type === "event_resolved") {
         emailHtml = betResultEmailHtml({
           userName: user.name || "",
           eventTitle: input.title,

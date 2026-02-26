@@ -25,6 +25,8 @@ import { formatDistanceToNow } from "date-fns";
 
 const typeIcons: Record<string, typeof Bell> = {
   bet_result: Trophy,
+  bet_won: Trophy,
+  bet_lost: Trophy,
   event_resolved: CheckCircle,
   comment_reply: MessageCircle,
   points_earned: Coins,
@@ -33,6 +35,8 @@ const typeIcons: Record<string, typeof Bell> = {
 
 const typeColors: Record<string, string> = {
   bet_result: "text-yes",
+  bet_won: "text-yes",
+  bet_lost: "text-no",
   event_resolved: "text-primary",
   comment_reply: "text-primary-hover",
   points_earned: "text-yes",
@@ -41,12 +45,46 @@ const typeColors: Record<string, string> = {
 
 const PAGE_SIZE = 20;
 
+function parseStructuredMessage(
+  type: string,
+  title: string,
+  message: string,
+  t: ReturnType<typeof useTranslations<"notifications">>
+): { displayTitle: string; displayMessage: string } {
+  if (type === "bet_won" || type === "bet_lost") {
+    try {
+      const data = JSON.parse(message) as Record<string, unknown>;
+      if (type === "bet_won") {
+        return {
+          displayTitle: t("betWonTitle"),
+          displayMessage: t("betWonMessage", {
+            payout: data.payout as number,
+            eventTitle: data.eventTitle as string,
+          }),
+        };
+      } else {
+        return {
+          displayTitle: t("betLostTitle"),
+          displayMessage: t("betLostMessage", {
+            eventTitle: data.eventTitle as string,
+          }),
+        };
+      }
+    } catch {
+      // Fall through to raw values if JSON parse fails
+    }
+  }
+  return { displayTitle: title, displayMessage: message };
+}
+
 function NotificationRow({
   notification,
   onRead,
+  t,
 }: {
   notification: Notification;
   onRead: (id: string, link?: string | null) => void;
+  t: ReturnType<typeof useTranslations<"notifications">>;
 }) {
   const Icon = typeIcons[notification.type] || Bell;
   const colorClass = typeColors[notification.type] || "text-muted";
@@ -54,6 +92,13 @@ function NotificationRow({
   const timeAgo = formatDistanceToNow(new Date(notification.createdAt), {
     addSuffix: false,
   });
+
+  const { displayTitle, displayMessage } = parseStructuredMessage(
+    notification.type,
+    notification.title,
+    notification.message,
+    t
+  );
 
   return (
     <button
@@ -83,14 +128,14 @@ function NotificationRow({
                 : "font-medium text-foreground"
             )}
           >
-            {notification.title}
+            {displayTitle}
           </p>
           <span className="shrink-0 text-[11px] text-muted/60">
             {timeAgo}
           </span>
         </div>
         <p className="mt-1 text-xs leading-relaxed text-muted">
-          {notification.message}
+          {displayMessage}
         </p>
       </div>
       {!notification.read && (
@@ -190,6 +235,7 @@ export function NotificationList({
               key={notification.id}
               notification={notification}
               onRead={handleNotificationClick}
+              t={t}
             />
           ))}
         </div>

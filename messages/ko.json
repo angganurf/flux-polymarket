@@ -281,7 +281,11 @@
     "commentReplies": "댓글 답변",
     "systemAlerts": "시스템 알림",
     "saved": "설정이 저장되었습니다",
-    "timeAgo": "{time} 전"
+    "timeAgo": "{time} 전",
+    "betWonTitle": "축하합니다! 승리하셨습니다!",
+    "betWonMessage": "\"{eventTitle}\"에서 {payout} 포인트를 획득하셨습니다",
+    "betLostTitle": "아쉽네요, 다음 기회에!",
+    "betLostMessage": "\"{eventTitle}\" 예측이 아쉽게 빗나갔습니다"
   },
   "errors": {
     "notFound": "페이지를 찾을 수 없습니다",

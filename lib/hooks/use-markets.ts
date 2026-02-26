@@ -9,6 +9,7 @@ export function useEvents(params?: {
   order?: string;
   ascending?: boolean;
   tag_id?: number;
+  tag?: string;
 }) {
   return useQuery({
     queryKey: ["events", params],

@@ -62,6 +62,7 @@ export async function fetchEvents(params?: {
   order?: string;
   ascending?: boolean;
   tag_id?: number;
+  tag?: string;
 }): Promise<ParsedEvent[]> {
   const searchParams = new URLSearchParams();
   if (params?.active !== undefined) searchParams.set("active", String(params.active));
@@ -71,6 +72,7 @@ export async function fetchEvents(params?: {
   if (params?.order) searchParams.set("order", params.order);
   if (params?.ascending !== undefined) searchParams.set("ascending", String(params.ascending));
   if (params?.tag_id) searchParams.set("tag_id", String(params.tag_id));
+  if (params?.tag) searchParams.set("tag", params.tag);
 
   const res = await fetch(gammaUrl("/events", searchParams.toString()));
   if (!res.ok) throw new Error(`Gamma API error: ${res.status}`);

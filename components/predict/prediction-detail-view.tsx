@@ -140,7 +140,7 @@ export function PredictionDetailView({ id }: PredictionDetailViewProps) {
       </div>
 
       {/* Stats */}
-      <div className="mt-4 grid grid-cols-3 gap-4">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="rounded-xl border border-border bg-surface p-3 text-center">
           <Coins className="mx-auto h-4 w-4 text-primary mb-1" />
           <p className="text-lg font-bold text-foreground">

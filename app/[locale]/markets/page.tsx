@@ -13,6 +13,17 @@ export default function MarketsPage() {
   const [sort, setSort] = useState("volume24hr");
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Map UI category IDs to Gamma API tag slugs
+  const CATEGORY_TO_TAG: Record<string, string> = {
+    politics: "politics",
+    sports: "sports",
+    crypto: "crypto",
+    "pop-culture": "culture",
+    science: "science",
+    business: "business",
+  };
+  const activeTag = category !== "all" ? CATEGORY_TO_TAG[category] : undefined;
+
   // Search mode vs browse mode
   const searchResults = useMarketSearch(searchQuery);
   const browseResults = useEvents({
@@ -21,6 +32,7 @@ export default function MarketsPage() {
     limit: 30,
     order: sort,
     ascending: false,
+    tag: activeTag,
   });
 
   const isSearching = searchQuery.length > 1;

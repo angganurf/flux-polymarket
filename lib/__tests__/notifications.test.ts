@@ -5,6 +5,8 @@ import type { NotificationType } from "../notifications";
 describe("notification preferences", () => {
   const typeMap: Record<NotificationType, string> = {
     bet_result: "betResults",
+    bet_won: "betResults",
+    bet_lost: "betResults",
     event_resolved: "eventResolved",
     comment_reply: "commentReplies",
     points_earned: "betResults",
@@ -22,6 +24,8 @@ describe("notification preferences", () => {
   it("all notification types have preference mappings", () => {
     const types: NotificationType[] = [
       "bet_result",
+      "bet_won",
+      "bet_lost",
       "event_resolved",
       "comment_reply",
       "points_earned",
@@ -36,8 +40,8 @@ describe("notification preferences", () => {
     expect(typeMap["bet_result"]).toBe(typeMap["points_earned"]);
   });
 
-  it("maps exactly 5 notification types", () => {
-    expect(Object.keys(typeMap)).toHaveLength(5);
+  it("maps exactly 7 notification types", () => {
+    expect(Object.keys(typeMap)).toHaveLength(7);
   });
 });
 
@@ -59,6 +63,8 @@ describe("notification preference gate logic", () => {
 
     const typeMap: Record<NotificationType, keyof typeof prefs> = {
       bet_result: "betResults",
+      bet_won: "betResults",
+      bet_lost: "betResults",
       event_resolved: "eventResolved",
       comment_reply: "commentReplies",
       points_earned: "betResults",

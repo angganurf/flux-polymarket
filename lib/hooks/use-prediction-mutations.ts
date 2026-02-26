@@ -30,6 +30,7 @@ export function usePlaceBet() {
       queryClient.invalidateQueries({ queryKey: ["prediction-event", vars.eventId] });
       queryClient.invalidateQueries({ queryKey: ["prediction-events"] });
       queryClient.invalidateQueries({ queryKey: ["portfolio"] });
+      queryClient.invalidateQueries({ queryKey: ["user-me"] });
     },
   });
 }
@@ -53,6 +54,7 @@ export function useResolveEvent() {
       queryClient.invalidateQueries({ queryKey: ["prediction-event", vars.eventId] });
       queryClient.invalidateQueries({ queryKey: ["prediction-events"] });
       queryClient.invalidateQueries({ queryKey: ["portfolio"] });
+      queryClient.invalidateQueries({ queryKey: ["user-me"] });
     },
   });
 }

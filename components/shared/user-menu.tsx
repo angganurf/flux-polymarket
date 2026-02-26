@@ -4,37 +4,27 @@ import { useSession, signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { LogIn, LogOut, Coins, Shield } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export function UserMenu() {
   const { data: session, status } = useSession();
   const t = useTranslations("auth");
   const tAdmin = useTranslations("admin");
-  const [points, setPoints] = useState<number | null>(null);
-  const [role, setRole] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!session?.user) return;
+  const { data: userInfo } = useQuery({
+    queryKey: ["user-me"],
+    queryFn: async () => {
+      const res = await fetch("/api/user/me");
+      if (!res.ok) throw new Error("Failed to fetch user info");
+      return res.json() as Promise<{ points: number; role: string }>;
+    },
+    enabled: !!session?.user,
+    staleTime: 30_000,
+    refetchInterval: 60_000,
+  });
 
-    const fetchUserInfo = async () => {
-      try {
-        const res = await fetch("/api/user/me");
-        if (res.ok) {
-          const data = await res.json();
-          setPoints(data.points);
-          setRole(data.role);
-        }
-      } catch {
-        // Silently fail — user info display is non-critical
-      }
-    };
-
-    fetchUserInfo();
-
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchUserInfo, 30_000);
-    return () => clearInterval(interval);
-  }, [session?.user]);
+  const points = userInfo?.points ?? null;
+  const role = userInfo?.role ?? null;
 
   if (status === "loading") {
     return <div className="h-8 w-20 animate-pulse rounded-lg bg-border" />;
