@@ -10,7 +10,8 @@ interface Comment {
 async function fetchComments(eventId: string): Promise<Comment[]> {
   const res = await fetch(`/api/events/${eventId}/comments`);
   if (!res.ok) throw new Error("Failed to fetch comments");
-  return res.json();
+  const data = await res.json();
+  return data.comments ?? [];
 }
 
 export function useComments(eventId: string) {
