@@ -59,9 +59,12 @@ URL routing logic is in `lib/api/fetch-helper.ts` (gammaUrl, clobUrl, dataUrl).
 - `/api/events/[id]/resolve` -- Resolve a prediction event
 - `/api/events/[id]/comments` -- Comments on events (GET/POST)
 - `/api/bets` -- Place bets
-- `/api/leaderboard` -- Local PredictFlow leaderboard
+- `/api/leaderboard/local` -- Local PredictFlow leaderboard
 - `/api/notifications` -- User notifications (GET/PATCH)
-- `/api/user` -- User profile/points
+- `/api/user/me` -- User profile (GET detail, PATCH update name)
+- `/api/user/bets` -- User bet history (GET)
+- `/api/user/points` -- User points balance (GET)
+- `/api/user/password` -- Change password (PATCH)
 - `/api/ai/analyze` -- Streaming AI market analysis
 - `/api/og` -- Dynamic OG image generation (1200x630)
 - `/api/cache` -- Cache management (admin)
@@ -72,9 +75,6 @@ URL routing logic is in `lib/api/fetch-helper.ts` (gammaUrl, clobUrl, dataUrl).
 - `/api/admin/system` -- System info and environment status
 - `/api/bot/telegram` -- Telegram webhook handler
 - `/api/bot/discord` -- Discord interactions handler
-- `/api/markets` -- Local markets API
-- `/api/user/me` -- User profile (GET detail, PATCH update name)
-- `/api/user/password` -- Change password (PATCH)
 - `/api/auth/forgot-password` -- Request password reset email
 - `/api/auth/reset-password` -- Reset password with token
 
@@ -150,7 +150,7 @@ Configured in `next.config.ts`:
 - **CSP**: Full Content-Security-Policy with Polymarket domain allowlist
 - **Dynamic Imports**: Loading skeletons for all route segments
 - **Environment Validation**: `lib/validate-env.ts` validates AUTH_SECRET and DATABASE_URL at startup, warns on weak secrets and missing OAuth config
-- **258 Tests**: Comprehensive test coverage across 16 test files
+- **295 Tests**: Comprehensive test coverage across 17 test files
 
 ### Sprint 7: Polish
 - **Rate Limiting**: In-memory rate limiter applied to all API routes
@@ -278,25 +278,31 @@ Configured in `next.config.ts`:
 ## Testing
 - **Framework**: Vitest v4 with Node environment
 - **Config**: `vitest.config.ts` with `@/` path alias
-- **Test files**: 16 files in `lib/__tests__/`:
+- **Test files**: 17 files in `lib/__tests__/`:
   - `admin.test.ts` -- Admin role verification
+  - `api-bets.test.ts` -- Bets API route handling
+  - `api-register.test.ts` -- Registration API route handling
+  - `api-resolve.test.ts` -- Event resolution API handling
+  - `bet-logic.test.ts` -- Bet placement logic
   - `bot-discord.test.ts` -- Discord bot command handling
   - `bot-telegram.test.ts` -- Telegram bot command handling
   - `cache.test.ts` -- LRU cache behavior and TTL
   - `discord-verify.test.ts` -- Discord signature verification
   - `email.test.ts` -- Email sending and templates
+  - `fetch-helper.test.ts` -- Gamma/CLOB/Data API URL routing (server vs browser proxy)
   - `format.test.ts` -- Utility formatting functions
   - `notifications.test.ts` -- Notification creation and preferences
+  - `payout-logic.test.ts` -- Payout calculation logic
   - `proxy-params.test.ts` -- API proxy parameter handling
   - `rate-limit.test.ts` -- Rate limiter behavior
   - `validate-env.test.ts` -- Environment validation
-- **Total**: 258 tests
+- **Total**: 295 tests
 - **CI**: Tests run in GitHub Actions with a PostgreSQL 17 service container
 
 ## Known Issues / Remaining Work
 - In-memory rate limiter and LRU cache are not suitable for multi-instance deployment (needs Redis for production horizontal scaling)
 - Service worker cache version is static (needs build hash injection for proper cache busting)
-- Password validation only enforces 6-character minimum (no complexity requirements)
+- Password validation only enforces 8-character minimum (no complexity requirements)
 
 # currentDate
 Today's date is 2026-02-26.

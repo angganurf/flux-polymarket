@@ -74,6 +74,24 @@ function parseStructuredMessage(
       // Fall through to raw values if JSON parse fails
     }
   }
+  if (type === "comment_reply") {
+    try {
+      const titleData = JSON.parse(title) as Record<string, unknown>;
+      if (titleData.key === "newComment") {
+        const data = JSON.parse(message) as Record<string, unknown>;
+        return {
+          displayTitle: t("newCommentTitle"),
+          displayMessage: t("newCommentMessage", {
+            commenterName: data.commenterName as string,
+            eventTitle: data.eventTitle as string,
+            content: data.content as string,
+          }),
+        };
+      }
+    } catch {
+      // Fall through to raw values if JSON parse fails
+    }
+  }
   return { displayTitle: title, displayMessage: message };
 }
 

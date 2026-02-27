@@ -4,15 +4,23 @@ import type { NextRequest } from "next/server";
 
 export const runtime = "edge";
 
+const ogTranslations: Record<string, { yes: string; no: string; marketAnalysis: string; communityPrediction: string }> = {
+  en: { yes: "Yes", no: "No", marketAnalysis: "Market Analysis", communityPrediction: "Community Prediction" },
+  ko: { yes: "예", no: "아니오", marketAnalysis: "시장 분석", communityPrediction: "커뮤니티 예측" },
+};
+
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const title = searchParams.get("title") ?? "Prediction Market";
   const yesRaw = searchParams.get("yes") ?? "50";
   const noRaw = searchParams.get("no") ?? "50";
   const type = searchParams.get("type") ?? "market";
+  const locale = searchParams.get("locale") ?? "en";
 
   const yes = Math.min(100, Math.max(0, parseInt(yesRaw, 10) || 50));
   const no = Math.min(100, Math.max(0, parseInt(noRaw, 10) || 50));
+
+  const strings = ogTranslations[locale] ?? ogTranslations.en;
 
   const bgColor = "#0b0e11";
   const fgColor = "#e5e7eb";
@@ -76,7 +84,7 @@ export async function GET(req: NextRequest) {
               marginLeft: "8px",
             }}
           >
-            {type === "predict" ? "Community Prediction" : "Market Analysis"}
+            {type === "predict" ? strings.communityPrediction : strings.marketAnalysis}
           </span>
         </div>
 
@@ -140,7 +148,7 @@ export async function GET(req: NextRequest) {
                   opacity: 0.8,
                 }}
               >
-                Yes
+                {strings.yes}
               </span>
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
@@ -152,7 +160,7 @@ export async function GET(req: NextRequest) {
                   opacity: 0.8,
                 }}
               >
-                No
+                {strings.no}
               </span>
               <span
                 style={{

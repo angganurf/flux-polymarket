@@ -119,8 +119,12 @@ export async function POST(
       createNotification({
         userId: event.creatorId,
         type: "comment_reply",
-        title: "New comment",
-        message: `${commenterName} commented on "${event.title}": ${truncatedContent}`,
+        title: JSON.stringify({ key: "newComment" }),
+        message: JSON.stringify({
+          commenterName,
+          eventTitle: event.title,
+          content: truncatedContent,
+        }),
         link: `/predict/${event.id}`,
       }).catch(() => {});
     }

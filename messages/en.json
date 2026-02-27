@@ -151,7 +151,8 @@
     "notFoundGoHome": "Go Home",
     "toggleTheme": "Toggle theme",
     "darkMode": "Switch to dark mode",
-    "lightMode": "Switch to light mode"
+    "lightMode": "Switch to light mode",
+    "skipToContent": "Skip to content"
   },
   "auth": {
     "login": "Log In",
@@ -300,7 +301,9 @@
     "betWonTitle": "You won!",
     "betWonMessage": "You earned {payout} points from \"{eventTitle}\"",
     "betLostTitle": "Better luck next time",
-    "betLostMessage": "Your prediction on \"{eventTitle}\" did not win this time"
+    "betLostMessage": "Your prediction on \"{eventTitle}\" did not win this time",
+    "newCommentTitle": "New comment",
+    "newCommentMessage": "{commenterName} commented on \"{eventTitle}\": {content}"
   },
   "errors": {
     "notFound": "Page Not Found",

@@ -1,4 +1,5 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "next-themes";
@@ -24,6 +25,7 @@ export default async function LocaleLayout({
   }
 
   const messages = (await import(`@/messages/${locale}.json`)).default;
+  const t = await getTranslations({ locale, namespace: "common" });
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
@@ -35,7 +37,7 @@ export default async function LocaleLayout({
                 href="#main-content"
                 className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md"
               >
-                Skip to content
+                {t("skipToContent")}
               </a>
               <Header />
               <main id="main-content" className="flex-1">{children}</main>

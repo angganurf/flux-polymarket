@@ -93,9 +93,15 @@ export async function POST(request: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3100";
     const resetLink = `${baseUrl}/${locale}/reset-password?token=${token}`;
 
+    const passwordResetSubjects: Record<string, string> = {
+      en: "Reset your PredictFlow password",
+      ko: "PredictFlow 비밀번호 재설정",
+    };
+    const emailSubject = passwordResetSubjects[locale] ?? passwordResetSubjects.en;
+
     await sendEmail({
       to: normalizedEmail,
-      subject: "Reset your PredictFlow password",
+      subject: emailSubject,
       html: passwordResetEmailHtml({
         userName: user.name || "",
         resetLink,

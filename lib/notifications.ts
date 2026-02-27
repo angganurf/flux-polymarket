@@ -77,19 +77,38 @@ export async function createNotification(input: CreateNotificationInput) {
           link: input.link || "/",
         });
       } else if (input.type === "comment_reply") {
+        let commenterName = "";
+        let eventTitle = input.title;
+        let commentContent = input.message;
+        try {
+          const msgData = JSON.parse(input.message) as Record<string, unknown>;
+          if (msgData.commenterName) commenterName = msgData.commenterName as string;
+          if (msgData.eventTitle) eventTitle = msgData.eventTitle as string;
+          if (msgData.content) commentContent = msgData.content as string;
+        } catch {
+          // message is not JSON, use raw values
+        }
         emailHtml = commentReplyEmailHtml({
           userName: user.name || "",
-          commenterName: "",
-          eventTitle: input.title,
-          comment: input.message,
+          commenterName,
+          eventTitle,
+          comment: commentContent,
           link: input.link || "/",
         });
       }
 
       if (emailHtml) {
+        // Resolve a human-readable email subject from potentially structured title
+        let emailSubject = input.title;
+        try {
+          const titleData = JSON.parse(input.title) as Record<string, unknown>;
+          if (titleData.key === "newComment") emailSubject = "New comment on your prediction";
+        } catch {
+          // title is plain text, use as-is
+        }
         const result = await sendEmail({
           to: user.email,
-          subject: input.title,
+          subject: emailSubject,
           html: emailHtml,
         });
         if (result) {
