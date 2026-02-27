@@ -301,7 +301,7 @@ Configured in `next.config.ts`:
 
 ## Known Issues / Remaining Work
 - In-memory rate limiter and LRU cache are not suitable for multi-instance deployment (needs Redis for production horizontal scaling)
-- Service worker cache version is static (needs build hash injection for proper cache busting)
+- Service worker cache version auto-injected via `prebuild` script (git SHA)
 - Password validation only enforces 8-character minimum (no complexity requirements)
 
 # currentDate

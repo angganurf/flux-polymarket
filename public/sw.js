@@ -1,5 +1,5 @@
-// IMPORTANT: Bump version on each deploy to invalidate old caches
-const CACHE_NAME = "predictflow-v9";
+// Cache version is auto-injected at build time via prebuild script
+const CACHE_NAME = "predictflow-v0";
 const OFFLINE_URL = "/offline";
 
 // Precache critical assets

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --port 3100",
     "postinstall": "prisma generate",
+    "prebuild": "node -e \"const fs=require('fs');const{execSync}=require('child_process');const sha=execSync('git rev-parse --short HEAD 2>/dev/null||echo local').toString().trim();let s=fs.readFileSync('public/sw.js','utf8');s=s.replace(/predictflow-v\\w+/,'predictflow-'+sha);fs.writeFileSync('public/sw.js',s);console.log('SW cache: predictflow-'+sha);\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
