@@ -180,7 +180,7 @@ async function main() {
     await page.type("#email", testEmail);
     await page.type("#password", "TestPass123!");
     await page.type("#confirm-password", "TestPass123!");
-    const imgFilled = await screenshot(page, "register-filled");
+    await screenshot(page, "register-filled");
 
     await Promise.all([
       page.waitForNavigation({ waitUntil: "networkidle2", timeout: 15000 }).catch(() => {}),
@@ -485,9 +485,6 @@ async function main() {
           await confirmBtn.click();
           await new Promise((r) => setTimeout(r, 4000));
           const img = await screenshot(page, "bet-confirmed");
-          // Check if points changed or success message
-          const pageContent = await page.content();
-          const hasSuccess = pageContent.includes("success") || pageContent.includes("900") || pageContent.includes("Successfully");
           log("TC-16", "Confirm Bet", "PASS", `Bet placed`, img);
         } else {
           const img = await screenshot(page, "bet-no-confirm");
