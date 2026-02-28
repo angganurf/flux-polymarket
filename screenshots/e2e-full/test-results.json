@@ -1,0 +1,563 @@
+{
+  "summary": {
+    "pass": 75,
+    "fail": 0,
+    "warn": 2,
+    "total": 77,
+    "passRate": "97.4%"
+  },
+  "categories": {
+    "S1: Registration": "8/8",
+    "S2: Login": "7/7",
+    "S3: Markets": "8/8",
+    "S4: Market Detail": "7/7",
+    "S5: Predictions": "7/7",
+    "S6: Betting": "8/9",
+    "S7: Portfolio/Profile": "6/6",
+    "S8: i18n": "4/5",
+    "S9: Mobile": "5/5",
+    "S10: API/Security": "10/10",
+    "S11: SEO/Perf": "5/5"
+  },
+  "results": [
+    {
+      "id": "TC-01",
+      "title": "Register: empty form submit blocked",
+      "status": "PASS",
+      "detail": "Form not submitted (validation)",
+      "screenshot": "01-register-empty-submit.png"
+    },
+    {
+      "id": "TC-02",
+      "title": "Register: invalid email rejected",
+      "status": "PASS",
+      "detail": "Stayed on register page",
+      "screenshot": "02-register-invalid-email.png"
+    },
+    {
+      "id": "TC-03",
+      "title": "Register: short password rejected",
+      "status": "PASS",
+      "detail": "Password min 8 chars enforced",
+      "screenshot": "03-register-short-password.png"
+    },
+    {
+      "id": "TC-04",
+      "title": "Register: password mismatch rejected",
+      "status": "PASS",
+      "detail": "Passwords must match",
+      "screenshot": "04-register-pw-mismatch.png"
+    },
+    {
+      "id": "TC-05",
+      "title": "Register: successful signup",
+      "status": "PASS",
+      "detail": "Redirected to: https://flux-polymarket.vercel.app/en",
+      "screenshot": "06-register-success.png"
+    },
+    {
+      "id": "TC-06",
+      "title": "Register: initial 1,000 points",
+      "status": "PASS",
+      "detail": "Points displayed in navbar",
+      "screenshot": "07-register-initial-points.png"
+    },
+    {
+      "id": "TC-07",
+      "title": "Register: navbar shows user info",
+      "status": "PASS",
+      "detail": "name=true, portfolio=true",
+      "screenshot": "08-register-navbar-loggedin.png"
+    },
+    {
+      "id": "TC-08",
+      "title": "Register: duplicate email handled",
+      "status": "PASS",
+      "detail": "HTTP 200 (anti-enumeration)",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-09",
+      "title": "Login: empty form blocked",
+      "status": "PASS",
+      "detail": "HTML5 validation",
+      "screenshot": "09-login-empty.png"
+    },
+    {
+      "id": "TC-10",
+      "title": "Login: wrong password rejected",
+      "status": "PASS",
+      "detail": "Error shown=true",
+      "screenshot": "10-login-wrong-pw.png"
+    },
+    {
+      "id": "TC-11",
+      "title": "Login: non-existent email rejected",
+      "status": "PASS",
+      "detail": "Stayed on login",
+      "screenshot": "11-login-nonexistent.png"
+    },
+    {
+      "id": "TC-12",
+      "title": "Login: successful login",
+      "status": "PASS",
+      "detail": "Redirected to: https://flux-polymarket.vercel.app/en",
+      "screenshot": "12-login-success.png"
+    },
+    {
+      "id": "TC-13",
+      "title": "Auth gate: /portfolio redirects to login",
+      "status": "PASS",
+      "detail": "url=https://flux-polymarket.vercel.app/en/login?callbackUrl=%2Fen%2Fportfolio",
+      "screenshot": "13-auth-gate-portfolio.png"
+    },
+    {
+      "id": "TC-14",
+      "title": "Auth gate: /notifications redirects to login",
+      "status": "PASS",
+      "detail": "url=https://flux-polymarket.vercel.app/en/login?callbackUrl=%2Fen%2Fnotifications",
+      "screenshot": "14-auth-gate-notifications.png"
+    },
+    {
+      "id": "TC-15",
+      "title": "Auth gate: /profile redirects to login",
+      "status": "PASS",
+      "detail": "url=https://flux-polymarket.vercel.app/en/login?callbackUrl=%2Fen%2Fprofile",
+      "screenshot": "15-auth-gate-profile.png"
+    },
+    {
+      "id": "TC-16",
+      "title": "Markets: page loads with cards",
+      "status": "PASS",
+      "detail": "1355 cards",
+      "screenshot": "16-markets-loaded.png"
+    },
+    {
+      "id": "TC-17",
+      "title": "Markets: search 'Trump'",
+      "status": "PASS",
+      "detail": "99 results",
+      "screenshot": "17-markets-search-trump.png"
+    },
+    {
+      "id": "TC-18",
+      "title": "Markets: search no results",
+      "status": "PASS",
+      "detail": "Empty state shown",
+      "screenshot": "18-markets-search-empty.png"
+    },
+    {
+      "id": "TC-19",
+      "title": "Markets: Politics filter",
+      "status": "PASS",
+      "detail": "Filter applied",
+      "screenshot": "19-markets-filter-politics.png"
+    },
+    {
+      "id": "TC-20",
+      "title": "Markets: Sports filter",
+      "status": "PASS",
+      "detail": "Filter applied",
+      "screenshot": "20-markets-filter-sports.png"
+    },
+    {
+      "id": "TC-21",
+      "title": "Markets: Crypto filter",
+      "status": "PASS",
+      "detail": "Filter applied",
+      "screenshot": "21-markets-filter-crypto.png"
+    },
+    {
+      "id": "TC-22",
+      "title": "Markets: Culture filter",
+      "status": "PASS",
+      "detail": "Filter applied",
+      "screenshot": "22-markets-filter-culture.png"
+    },
+    {
+      "id": "TC-23",
+      "title": "Markets: sort by newest",
+      "status": "PASS",
+      "detail": "Sort changed",
+      "screenshot": "23-markets-sort-newest.png"
+    },
+    {
+      "id": "TC-24",
+      "title": "Market Detail: page loads",
+      "status": "PASS",
+      "detail": "https://flux-polymarket.vercel.app/en/markets/us-strikes-iran-by-february-5-2026",
+      "screenshot": "24-market-detail-loaded.png"
+    },
+    {
+      "id": "TC-25",
+      "title": "Market Detail: price chart renders",
+      "status": "PASS",
+      "detail": "canvas=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-26",
+      "title": "Market Detail: share buttons",
+      "status": "PASS",
+      "detail": "X=true, Kakao=true, Copy=true",
+      "screenshot": "25-market-detail-share.png"
+    },
+    {
+      "id": "TC-27",
+      "title": "Market Detail: Trade CTA",
+      "status": "PASS",
+      "detail": "CTA found=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-28",
+      "title": "Market Detail: time period buttons",
+      "status": "PASS",
+      "detail": "1H=true, ALL=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-29",
+      "title": "Market Detail: volume/liquidity stats",
+      "status": "PASS",
+      "detail": "Volume=true, Liquidity=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-30",
+      "title": "Market Detail: scroll to bottom",
+      "status": "PASS",
+      "detail": "Bottom content visible",
+      "screenshot": "26-market-detail-bottom.png"
+    },
+    {
+      "id": "TC-31",
+      "title": "Predict: shows seed events",
+      "status": "PASS",
+      "detail": "8 events (expected 8)",
+      "screenshot": "27-predict-list.png"
+    },
+    {
+      "id": "TC-32",
+      "title": "Predict: category filters present",
+      "status": "PASS",
+      "detail": "Found: General, Politics, Sports, Crypto, Entertainment, Technology",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-33",
+      "title": "Predict: detail page loads",
+      "status": "PASS",
+      "detail": "https://flux-polymarket.vercel.app/en/predict/cmm4ak6yx0008xb9jci426hry",
+      "screenshot": "28-predict-detail.png"
+    },
+    {
+      "id": "TC-34",
+      "title": "Predict Detail: YES/NO buttons",
+      "status": "PASS",
+      "detail": "YES=true, NO=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-35",
+      "title": "Predict Detail: comments section",
+      "status": "PASS",
+      "detail": "section=true, input=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-36",
+      "title": "Predict Detail: share buttons",
+      "status": "PASS",
+      "detail": "share=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-37",
+      "title": "Predict: create page has form",
+      "status": "PASS",
+      "detail": "title=true, desc=true, submit=true",
+      "screenshot": "29-predict-create.png"
+    },
+    {
+      "id": "TC-38",
+      "title": "Bet: select YES",
+      "status": "PASS",
+      "detail": "",
+      "screenshot": "30-bet-yes-selected.png"
+    },
+    {
+      "id": "TC-39",
+      "title": "Bet: switch to NO",
+      "status": "PASS",
+      "detail": "",
+      "screenshot": "31-bet-no-selected.png"
+    },
+    {
+      "id": "TC-40",
+      "title": "Bet: switch back to YES",
+      "status": "PASS",
+      "detail": "Toggled",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-41",
+      "title": "Bet: enter amount 50",
+      "status": "PASS",
+      "detail": "50 pts entered",
+      "screenshot": "32-bet-amount-50.png"
+    },
+    {
+      "id": "TC-42",
+      "title": "Bet: confirm button shows amount",
+      "status": "PASS",
+      "detail": "confirm text found=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-43",
+      "title": "Bet: place 50 YES",
+      "status": "PASS",
+      "detail": "First bet placed",
+      "screenshot": "33-bet-first-placed.png"
+    },
+    {
+      "id": "TC-44",
+      "title": "Bet: points deducted to 950",
+      "status": "WARN",
+      "detail": "950 found=false",
+      "screenshot": "34-bet-points-deducted.png"
+    },
+    {
+      "id": "TC-45",
+      "title": "Bet: second bet 100 YES",
+      "status": "PASS",
+      "detail": "Second bet placed",
+      "screenshot": "35-bet-second-placed.png"
+    },
+    {
+      "id": "TC-46",
+      "title": "Bet: API rejects bet > balance",
+      "status": "PASS",
+      "detail": "HTTP 400",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-47",
+      "title": "Portfolio: shows bet history",
+      "status": "PASS",
+      "detail": "bets visible=true",
+      "screenshot": "36-portfolio-with-bets.png"
+    },
+    {
+      "id": "TC-48",
+      "title": "Portfolio: shows points",
+      "status": "PASS",
+      "detail": "points visible=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-49",
+      "title": "Profile: page loads with user info",
+      "status": "PASS",
+      "detail": "name=true, email=true",
+      "screenshot": "37-profile-page.png"
+    },
+    {
+      "id": "TC-50",
+      "title": "Forgot Password: page loads",
+      "status": "PASS",
+      "detail": "email=true, submit=true",
+      "screenshot": "38-forgot-password.png"
+    },
+    {
+      "id": "TC-51",
+      "title": "Leaderboard: Polymarket tab",
+      "status": "PASS",
+      "detail": "rankings=true",
+      "screenshot": "39-leaderboard-polymarket.png"
+    },
+    {
+      "id": "TC-52",
+      "title": "Leaderboard: PredictFlow tab",
+      "status": "PASS",
+      "detail": "Tab switched",
+      "screenshot": "40-leaderboard-predictflow.png"
+    },
+    {
+      "id": "TC-53",
+      "title": "i18n: Korean home page",
+      "status": "PASS",
+      "detail": "lang=\"ko\", koreanUI=true",
+      "screenshot": "41-i18n-ko-home.png"
+    },
+    {
+      "id": "TC-54",
+      "title": "i18n: Korean markets",
+      "status": "PASS",
+      "detail": "koreanUI=true",
+      "screenshot": "42-i18n-ko-markets.png"
+    },
+    {
+      "id": "TC-55",
+      "title": "i18n: Korean predict (seed data)",
+      "status": "PASS",
+      "detail": "koreanEvents=true",
+      "screenshot": "43-i18n-ko-predict.png"
+    },
+    {
+      "id": "TC-56",
+      "title": "i18n: locale switch EN->KO",
+      "status": "WARN",
+      "detail": "lang=\"en\"",
+      "screenshot": "44-i18n-locale-switch.png"
+    },
+    {
+      "id": "TC-57",
+      "title": "i18n: Korean login page",
+      "status": "PASS",
+      "detail": "koreanUI=true",
+      "screenshot": "45-i18n-ko-login.png"
+    },
+    {
+      "id": "TC-58",
+      "title": "Mobile: home page",
+      "status": "PASS",
+      "detail": "hamburger=true",
+      "screenshot": "46-mobile-home.png"
+    },
+    {
+      "id": "TC-59",
+      "title": "Mobile: hamburger menu opens",
+      "status": "PASS",
+      "detail": "nav items visible=true",
+      "screenshot": "47-mobile-menu-open.png"
+    },
+    {
+      "id": "TC-60",
+      "title": "Mobile: markets single column",
+      "status": "PASS",
+      "detail": "Responsive layout",
+      "screenshot": "48-mobile-markets.png"
+    },
+    {
+      "id": "TC-61",
+      "title": "Mobile: predict page",
+      "status": "PASS",
+      "detail": "Responsive layout",
+      "screenshot": "49-mobile-predict.png"
+    },
+    {
+      "id": "TC-62",
+      "title": "Mobile: login page",
+      "status": "PASS",
+      "detail": "Responsive form",
+      "screenshot": "50-mobile-login.png"
+    },
+    {
+      "id": "TC-63",
+      "title": "API: GET /api/events",
+      "status": "PASS",
+      "detail": "HTTP 200, 8 events",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-64",
+      "title": "API: polymarket events proxy",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-65",
+      "title": "API: polymarket leaderboard proxy",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-66",
+      "title": "API: register rejects invalid email",
+      "status": "PASS",
+      "detail": "HTTP 400, error=Invalid email format",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-67",
+      "title": "API: register rejects short password",
+      "status": "PASS",
+      "detail": "HTTP 400, error=Password must be at least 8 characters",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-68",
+      "title": "API: bets rejects unauthenticated",
+      "status": "PASS",
+      "detail": "HTTP 401",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-69",
+      "title": "Security: XSS in name sanitized",
+      "status": "PASS",
+      "detail": "stored name=\"\"",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-70",
+      "title": "Security: SQL injection rejected",
+      "status": "PASS",
+      "detail": "HTTP 400",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-71",
+      "title": "Security: admin API blocked for non-admin",
+      "status": "PASS",
+      "detail": "HTTP 403",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-72",
+      "title": "Security: comments reject unauthenticated",
+      "status": "PASS",
+      "detail": "HTTP 401",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-73",
+      "title": "SEO: robots.txt valid",
+      "status": "PASS",
+      "detail": "rules present=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-74",
+      "title": "SEO: sitemap.xml valid",
+      "status": "PASS",
+      "detail": "HTTP 200, urls=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-75",
+      "title": "Security: response headers",
+      "status": "PASS",
+      "detail": "XFO=true, XCTO=true, HSTS=true, RP=true",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-76",
+      "title": "Performance: home load time",
+      "status": "PASS",
+      "detail": "2119ms",
+      "screenshot": ""
+    },
+    {
+      "id": "TC-77",
+      "title": "Performance: API /events response time",
+      "status": "PASS",
+      "detail": "10ms",
+      "screenshot": ""
+    }
+  ]
+}
