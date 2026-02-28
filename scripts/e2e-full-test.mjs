@@ -43,6 +43,7 @@ function log(id, title, status, detail = "", file = "") {
   results.push({ id, title, status, detail, screenshot: file });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function getText(page, selector) {
   const el = await page.$(selector);
   return el ? await page.evaluate(e => e.textContent?.trim(), el) : null;
@@ -483,7 +484,7 @@ async function main() {
 
   // TC-34: Detail has YES/NO buttons
   try {
-    const yesBtn = await page.$('button[aria-pressed]');
+    await page.$('button[aria-pressed]');
     const content = await page.content();
     const hasYes = content.includes("YES") || content.includes("Yes");
     const hasNo = content.includes("NO") || content.includes("No");
@@ -537,7 +538,7 @@ async function main() {
   try {
     await page.goto(`${BASE}/en/predict`, { waitUntil: "domcontentloaded", timeout: 30000 });
     await waitMs(3000);
-  } catch (e) { console.log("  [Bet setup: predict page load failed, retrying]"); await page.goto(`${BASE}/en/predict`, { waitUntil: "load", timeout: 30000 }); await waitMs(3000); }
+  } catch { console.log("  [Bet setup: predict page load failed, retrying]"); await page.goto(`${BASE}/en/predict`, { waitUntil: "load", timeout: 30000 }); await waitMs(3000); }
 
   const predLinks = await page.$$("a[href*='/predict/']");
   const validLinks = [];
